@@ -1,6 +1,7 @@
 package org.meedz.cvblockformapi.rc;
 
 import org.bson.Document;
+import org.meedz.cvblockformapi.model.SkillFolder;
 import org.meedz.cvblockformapi.repository.MongoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -29,11 +30,16 @@ public class ConfigurationController {
         return new ResponseEntity<>(result.get("skill_folder_id"), HttpStatus.CREATED);
     }
 
-    @GetMapping("/all")
-    ResponseEntity<?> getAll() {
-        List<String> allDocuments = mongoRepository.allDocuments();
-        mongoRepository.getSkillFolderById();
-        return ResponseEntity.ok(allDocuments);
+    @GetMapping("/skillfolder")
+    ResponseEntity<?> getSkillFolder(@RequestParam long id) {
+        SkillFolder skillFolder = mongoRepository.getSkillFolderById(id);
+        return ResponseEntity.ok(skillFolder);
+    }
+
+    @GetMapping("/skillfolders")
+    ResponseEntity<?> getSkillFolders() {
+        List<SkillFolder> skillFolders = mongoRepository.getSkillFolders();
+        return ResponseEntity.ok(skillFolders);
     }
 
 }

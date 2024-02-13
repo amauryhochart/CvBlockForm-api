@@ -31,11 +31,19 @@ public class MongoRepository {
         return list;
     }
 
-    public void getSkillFolderById() {
+    public SkillFolder getSkillFolderById(long SkillFolderId) {
         Query query = new Query();
-        query.addCriteria(Criteria.where("id").is(1));
+        query.addCriteria(Criteria.where("skill_folder_id").is(SkillFolderId));
         List<SkillFolder> skillFolderList = mongoTemplate.find(query, SkillFolder.class);
         SkillFolder skillFolder = skillFolderList.get(0);
         System.out.println(skillFolder.getSkills());
+        return skillFolder;
+    }
+
+    public List<SkillFolder> getSkillFolders() {
+        Query query = new Query();
+        List<SkillFolder> skillFolderList = mongoTemplate.find(query, SkillFolder.class);
+        System.out.println(skillFolderList.stream().map((SkillFolder::getSkill_folder_id)));
+        return skillFolderList;
     }
 }

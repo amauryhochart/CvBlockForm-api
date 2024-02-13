@@ -15,14 +15,14 @@ public class SkillFolder {
   public Date creation_date;
   public Date modification_date;
   public Boolean deleted;
-  public String consultant;
   public BigInteger experience_years;
   public String email;
   public BigInteger tjm;
   public String mobility;
-  public List languages;
-  public List skills;
-  public List experiences;
-  public List learnings;
+  public List<String> languages;
+  public Consultant consultant;
+  public List<Skill> skills;
+  public List<Experience> experiences;
+  public List<Learning> learnings;
 
 }
