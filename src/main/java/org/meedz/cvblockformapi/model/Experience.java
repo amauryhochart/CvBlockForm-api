@@ -1,10 +1,14 @@
 package org.meedz.cvblockformapi.model;
 
+import lombok.Builder;
 import lombok.Data;
+import org.bson.Document;
+
 import java.math.BigInteger;
 import java.util.Date;
 
 @Data
+@Builder
 public class Experience {
     public BigInteger experience_id;
     public Date creation_date;

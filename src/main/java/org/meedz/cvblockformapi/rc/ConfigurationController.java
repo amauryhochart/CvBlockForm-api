@@ -1,6 +1,15 @@
 package org.meedz.cvblockformapi.rc;
 
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.FindOneAndUpdateOptions;
+import com.mongodb.client.model.ReturnDocument;
+import com.mongodb.client.model.Updates;
+import com.mongodb.client.result.UpdateResult;
 import org.bson.Document;
+import org.bson.conversions.Bson;
+import org.meedz.cvblockformapi.model.Experience;
 import org.meedz.cvblockformapi.model.SkillFolder;
 import org.meedz.cvblockformapi.repository.MongoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +18,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.math.BigInteger;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:8081")
@@ -41,5 +54,20 @@ public class ConfigurationController {
         List<SkillFolder> skillFolders = mongoRepository.getSkillFolders();
         return ResponseEntity.ok(skillFolders);
     }
+
+    @PostMapping("/experience")
+    ResponseEntity<?> postExperience(@RequestParam BigInteger skillFolderId, @RequestBody String jsonString) {
+        Document doc = Document.parse(jsonString);
+        Experience result = mongoRepository.createExperience(skillFolderId, doc);
+        return new ResponseEntity<>(result.getExperience_id(), HttpStatus.CREATED);
+    }
+
+    @PostMapping("/skillfolder")
+    ResponseEntity<?> postSkillFolder(@RequestBody String jsonString) {
+        Document doc = Document.parse(jsonString);
+        SkillFolder skillFolder = mongoRepository.createSkillFolderFromDocument(doc);
+        return ResponseEntity.ok(skillFolder);
+    }
+
 
 }
