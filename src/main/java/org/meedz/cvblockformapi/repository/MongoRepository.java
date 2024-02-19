@@ -109,6 +109,21 @@ public class MongoRepository {
         collection.findOneAndUpdate(query, push_data);
     }
 
+    public void createSkill(int skillFolderId, Document document) {
+        // get the collection
+        MongoCollection<Document> collection = mongoTemplate.getCollection("skillfolder");
+
+        // set a query with skill_folder_id
+        BasicDBObject query = new BasicDBObject();
+        query.put("skill_folder_id", skillFolderId);
+
+        // push the experience in experiences in the skill_folder_id
+        BasicDBObject push_data = new BasicDBObject("$push", new BasicDBObject("skills", document));
+
+        // update in database the skillFolder
+        collection.findOneAndUpdate(query, push_data);
+    }
+
 
     //utils
     public int getRandomId() {

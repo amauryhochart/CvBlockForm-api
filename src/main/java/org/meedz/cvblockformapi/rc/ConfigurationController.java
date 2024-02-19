@@ -2,6 +2,7 @@ package org.meedz.cvblockformapi.rc;
 
 import org.bson.Document;
 import org.meedz.cvblockformapi.dto.DtoExperience;
+import org.meedz.cvblockformapi.dto.DtoSkill;
 import org.meedz.cvblockformapi.model.SkillFolder;
 import org.meedz.cvblockformapi.repository.MongoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +48,8 @@ public class ConfigurationController {
     @PostMapping("/experience")
     ResponseEntity<DtoExperience> postExperience(@RequestParam int skillFolderId, @RequestBody DtoExperience dtoExperience) {
         // Fill the base info, like creation_date...
-        DtoExperience reworkedDtoExperience = getBaseReworkedDtoExperience(skillFolderId, dtoExperience);
+        dtoExperience.put("experience_id", mongoRepository.getRandomId());
+        DtoExperience reworkedDtoExperience = (DtoExperience) getBaseReworkedDtoExperience(skillFolderId, dtoExperience);
 
         // fill specific infos for experience
         String beginDate = dtoExperience.getString("begin_date");
@@ -60,13 +62,30 @@ public class ConfigurationController {
         return ResponseEntity.status(HttpStatus.CREATED).body(reworkedDtoExperience);
     }
 
-    private DtoExperience getBaseReworkedDtoExperience(int skillFolderId, DtoExperience dtoExperience) {
-        dtoExperience.put("experience_id", mongoRepository.getRandomId());
-        dtoExperience.put("creation_date", Date.from(Instant.now()));
-        dtoExperience.put("modification_date", Date.from(Instant.now()));
-        dtoExperience.put("deleted", false);
-        dtoExperience.put("skill_folder_id", skillFolderId);
-        return dtoExperience;
+    @PostMapping("/skill")
+    ResponseEntity<DtoSkill> postSkill(@RequestParam int skillFolderId, @RequestBody DtoSkill dtoSkill) {
+        // Fill the base info, like creation_date...
+        dtoSkill.put("skill_id", mongoRepository.getRandomId());
+        DtoSkill reworkedDtoExperience = (DtoSkill) getBaseReworkedDtoExperience(skillFolderId, dtoSkill);
+
+        // create in DB the document
+        mongoRepository.createSkill(skillFolderId, reworkedDtoExperience);
+        return ResponseEntity.status(HttpStatus.CREATED).body(reworkedDtoExperience);
+    }
+
+    /**
+     * Base methods to create abstract infos...
+     *
+     * @param skillFolderId Integer
+     * @param document      BsonDocument
+     * @return BsonDocument
+     */
+    private Document getBaseReworkedDtoExperience(int skillFolderId, Document document) {
+        document.put("creation_date", Date.from(Instant.now()));
+        document.put("modification_date", Date.from(Instant.now()));
+        document.put("deleted", false);
+        document.put("skill_folder_id", skillFolderId);
+        return document;
     }
 
     @PostMapping("/skillfolder")
