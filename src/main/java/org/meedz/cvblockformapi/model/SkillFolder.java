@@ -13,13 +13,13 @@ import java.util.List;
 @Document(collection = "skillfolder")
 public class SkillFolder {
 
-  public BigInteger skill_folder_id;
+  public int skill_folder_id;
   public Date creation_date;
   public Date modification_date;
   public Boolean deleted;
-  public BigInteger experience_years;
+  public int experience_years;
   public String email;
-  public BigInteger tjm;
+  public int tjm;
   public String mobility;
   public List<String> languages;
   public Consultant consultant;
