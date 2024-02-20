@@ -14,12 +14,11 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
-import java.math.BigInteger;
 import java.time.Instant;
 import java.util.*;
 
 @Repository
-public class MongoRepository {
+public class CvBlockFormRepository {
     private static final String DatabaseName = "cvblockform";
     private static final String CollectionName = "skillfolder";
 
@@ -94,6 +93,12 @@ public class MongoRepository {
         return skillFolder;
     }
 
+    /**
+     * Create the Experience Document in DB by updating the SkillFolder Document with collection.findOneAndUpdate.
+     *
+     * @param skillFolderId Integer skillFolderId
+     * @param document      BsonDocument of the concerned Experience Object
+     */
     public void createExperience(int skillFolderId, Document document) {
         // get the collection
         MongoCollection<Document> collection = mongoTemplate.getCollection("skillfolder");
@@ -109,6 +114,12 @@ public class MongoRepository {
         collection.findOneAndUpdate(query, push_data);
     }
 
+    /**
+     * Create the Skill Document in DB by updating the SkillFolder Document with collection.findOneAndUpdate.
+     *
+     * @param skillFolderId Integer skillFolderId
+     * @param document      BsonDocument of the concerned Skill Object
+     */
     public void createSkill(int skillFolderId, Document document) {
         // get the collection
         MongoCollection<Document> collection = mongoTemplate.getCollection("skillfolder");
@@ -117,8 +128,29 @@ public class MongoRepository {
         BasicDBObject query = new BasicDBObject();
         query.put("skill_folder_id", skillFolderId);
 
-        // push the experience in experiences in the skill_folder_id
+        // push the skill in skills in the skill_folder_id
         BasicDBObject push_data = new BasicDBObject("$push", new BasicDBObject("skills", document));
+
+        // update in database the skillFolder
+        collection.findOneAndUpdate(query, push_data);
+    }
+
+    /**
+     * Create the Learning Document in DB by updating the SkillFolder Document with collection.findOneAndUpdate.
+     *
+     * @param skillFolderId Integer skillFolderId
+     * @param document      BsonDocument of the concerned Learning Object
+     */
+    public void createLearning(int skillFolderId, Document document) {
+        // get the collection
+        MongoCollection<Document> collection = mongoTemplate.getCollection("skillfolder");
+
+        // set a query with skill_folder_id
+        BasicDBObject query = new BasicDBObject();
+        query.put("skill_folder_id", skillFolderId);
+
+        // push the learning in learnings in the skill_folder_id
+        BasicDBObject push_data = new BasicDBObject("$push", new BasicDBObject("learnings", document));
 
         // update in database the skillFolder
         collection.findOneAndUpdate(query, push_data);

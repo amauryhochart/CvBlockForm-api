@@ -6,10 +6,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 @SpringBootConfiguration
-public class SpringBootDataMongodbApplication {
+public class CvBlockFormApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SpringBootDataMongodbApplication.class, args);
+		SpringApplication.run(CvBlockFormApplication.class, args);
 	}
 
 }
