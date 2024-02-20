@@ -71,7 +71,7 @@ public class CvBlockFormController {
      * @return the dtoExperience concerned with 201 HTTP CREATED
      */
     @PostMapping("/experience")
-    ResponseEntity<DtoExperience> postExperience(@RequestParam int skillFolderId, @RequestBody DtoExperience dtoExperience) {
+    ResponseEntity<?> postExperience(@RequestParam int skillFolderId, @RequestBody DtoExperience dtoExperience) {
         // Fill the base info, like creation_date...
         dtoExperience.put("experience_id", cvBlockFormRepository.getRandomId());
         DtoExperience reworkedDtoExperience = (DtoExperience) getBaseReworkedDtoExperience(skillFolderId, dtoExperience);
@@ -83,8 +83,12 @@ public class CvBlockFormController {
         reworkedDtoExperience.replace("ending_date", endingDate != null ? Date.from(Instant.parse(endingDate)) : null);
 
         // create in DB the document
-        cvBlockFormRepository.createExperience(skillFolderId, reworkedDtoExperience);
-        return ResponseEntity.status(HttpStatus.CREATED).body(reworkedDtoExperience);
+        Document document = cvBlockFormRepository.createExperience(skillFolderId, reworkedDtoExperience);
+        if (document != null) {
+            return ResponseEntity.status(HttpStatus.CREATED).body(reworkedDtoExperience);
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error in creating experience in skillFolder " + skillFolderId);
+        }
     }
 
     /**
@@ -95,14 +99,18 @@ public class CvBlockFormController {
      * @return the dtoSkill concerned with 201 HTTP CREATED
      */
     @PostMapping("/skill")
-    ResponseEntity<DtoSkill> postSkill(@RequestParam int skillFolderId, @RequestBody DtoSkill dtoSkill) {
+    ResponseEntity<?> postSkill(@RequestParam int skillFolderId, @RequestBody DtoSkill dtoSkill) {
         // Fill the base info, like creation_date...
         dtoSkill.put("skill_id", cvBlockFormRepository.getRandomId());
         DtoSkill reworkedDtoSkill = (DtoSkill) getBaseReworkedDtoExperience(skillFolderId, dtoSkill);
 
         // create in DB the document
-        cvBlockFormRepository.createSkill(skillFolderId, reworkedDtoSkill);
-        return ResponseEntity.status(HttpStatus.CREATED).body(reworkedDtoSkill);
+        Document document = cvBlockFormRepository.createSkill(skillFolderId, reworkedDtoSkill);
+        if (document != null) {
+            return ResponseEntity.status(HttpStatus.CREATED).body(reworkedDtoSkill);
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error in creating skill in skillFolder " + skillFolderId);
+        }
     }
 
     /**
@@ -113,7 +121,7 @@ public class CvBlockFormController {
      * @return the dtoLearning concerned with 201 HTTP CREATED
      */
     @PostMapping("/learning")
-    ResponseEntity<DtoLearning> postLearning(@RequestParam int skillFolderId, @RequestBody DtoLearning dtoLearning) {
+    ResponseEntity<?> postLearning(@RequestParam int skillFolderId, @RequestBody DtoLearning dtoLearning) {
         // Fill the base info, like creation_date...
         dtoLearning.put("skill_id", cvBlockFormRepository.getRandomId());
         DtoLearning reworkedDtoLearning = (DtoLearning) getBaseReworkedDtoExperience(skillFolderId, dtoLearning);
@@ -123,9 +131,24 @@ public class CvBlockFormController {
         reworkedDtoLearning.replace("date", date != null ? Date.from(Instant.parse(date)) : null);
 
         // create in DB the document
-        cvBlockFormRepository.createLearning(skillFolderId, reworkedDtoLearning);
-        return ResponseEntity.status(HttpStatus.CREATED).body(reworkedDtoLearning);
+        Document document = cvBlockFormRepository.createExperience(skillFolderId, reworkedDtoLearning);
+        if (document != null) {
+            return ResponseEntity.status(HttpStatus.CREATED).body(reworkedDtoLearning);
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error in creating learning in skillFolder " + skillFolderId);
+        }
     }
+
+    @DeleteMapping("/experience")
+    ResponseEntity<?> deleteExperience(@RequestParam int skillFolderId, @RequestParam int experienceId) {
+        Document document = cvBlockFormRepository.deleteExperience(skillFolderId, experienceId);
+        if (document != null) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error in creating learning in skillFolder " + skillFolderId);
+        }
+    }
+
 
     /**
      * Base methods to create abstract infos...
@@ -148,6 +171,5 @@ public class CvBlockFormController {
         SkillFolder skillFolder = cvBlockFormRepository.createSkillFolderFromDocument(doc);
         return ResponseEntity.ok(skillFolder);
     }
-
 
 }

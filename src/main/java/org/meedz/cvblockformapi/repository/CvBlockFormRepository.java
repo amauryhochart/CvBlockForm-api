@@ -98,8 +98,9 @@ public class CvBlockFormRepository {
      *
      * @param skillFolderId Integer skillFolderId
      * @param document      BsonDocument of the concerned Experience Object
+     * @return document if success
      */
-    public void createExperience(int skillFolderId, Document document) {
+    public Document createExperience(int skillFolderId, Document document) {
         // get the collection
         MongoCollection<Document> collection = mongoTemplate.getCollection("skillfolder");
 
@@ -111,7 +112,7 @@ public class CvBlockFormRepository {
         BasicDBObject push_data = new BasicDBObject("$push", new BasicDBObject("experiences", document));
 
         // update in database the skillFolder
-        collection.findOneAndUpdate(query, push_data);
+        return collection.findOneAndUpdate(query, push_data);
     }
 
     /**
@@ -119,8 +120,9 @@ public class CvBlockFormRepository {
      *
      * @param skillFolderId Integer skillFolderId
      * @param document      BsonDocument of the concerned Skill Object
+     * @return document if success
      */
-    public void createSkill(int skillFolderId, Document document) {
+    public Document createSkill(int skillFolderId, Document document) {
         // get the collection
         MongoCollection<Document> collection = mongoTemplate.getCollection("skillfolder");
 
@@ -133,6 +135,7 @@ public class CvBlockFormRepository {
 
         // update in database the skillFolder
         collection.findOneAndUpdate(query, push_data);
+        return document;
     }
 
     /**
@@ -140,8 +143,9 @@ public class CvBlockFormRepository {
      *
      * @param skillFolderId Integer skillFolderId
      * @param document      BsonDocument of the concerned Learning Object
+     * @return document if success
      */
-    public void createLearning(int skillFolderId, Document document) {
+    public Document createLearning(int skillFolderId, Document document) {
         // get the collection
         MongoCollection<Document> collection = mongoTemplate.getCollection("skillfolder");
 
@@ -153,7 +157,25 @@ public class CvBlockFormRepository {
         BasicDBObject push_data = new BasicDBObject("$push", new BasicDBObject("learnings", document));
 
         // update in database the skillFolder
-        collection.findOneAndUpdate(query, push_data);
+        return collection.findOneAndUpdate(query, push_data);
+    }
+
+    public Document deleteExperience(int skillFolderId, int experienceId) {
+        // get the collection
+        MongoCollection<Document> collection = mongoTemplate.getCollection("skillfolder");
+
+        // set a query with skill_folder_id
+        BasicDBObject query = new BasicDBObject();
+        query.put("skill_folder_id", skillFolderId);
+
+        // remove the experience in experiences in the skill_folder_id
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("experience_id", experienceId);
+        BasicDBObject fields = new BasicDBObject("experiences", map);
+        BasicDBObject remove = new BasicDBObject("$pull", fields);
+
+        // remove the experience in the skillFolder in database
+        return collection.findOneAndUpdate(query, remove);
     }
 
 
