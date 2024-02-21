@@ -7,7 +7,7 @@ import java.util.Date;
 
 @Data
 public class Learning {
-    public BigInteger consultant_id;
+    public BigInteger learning_id;
     public Date creation_date;
     public Date modification_date;
     public Boolean deleted;

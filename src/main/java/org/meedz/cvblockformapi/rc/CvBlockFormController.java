@@ -74,7 +74,7 @@ public class CvBlockFormController {
     ResponseEntity<?> postExperience(@RequestParam int skillFolderId, @RequestBody DtoExperience dtoExperience) {
         // Fill the base info, like creation_date...
         dtoExperience.put("experience_id", cvBlockFormRepository.getRandomId());
-        DtoExperience reworkedDtoExperience = (DtoExperience) getBaseReworkedDtoExperience(skillFolderId, dtoExperience);
+        DtoExperience reworkedDtoExperience = (DtoExperience) getBaseReworkedDto(skillFolderId, dtoExperience);
 
         // fill specific date info for experience
         String beginDate = dtoExperience.getString("begin_date");
@@ -102,7 +102,7 @@ public class CvBlockFormController {
     ResponseEntity<?> postSkill(@RequestParam int skillFolderId, @RequestBody DtoSkill dtoSkill) {
         // Fill the base info, like creation_date...
         dtoSkill.put("skill_id", cvBlockFormRepository.getRandomId());
-        DtoSkill reworkedDtoSkill = (DtoSkill) getBaseReworkedDtoExperience(skillFolderId, dtoSkill);
+        DtoSkill reworkedDtoSkill = (DtoSkill) getBaseReworkedDto(skillFolderId, dtoSkill);
 
         // create in DB the document
         Document document = cvBlockFormRepository.createSkill(skillFolderId, reworkedDtoSkill);
@@ -123,15 +123,15 @@ public class CvBlockFormController {
     @PostMapping("/learning")
     ResponseEntity<?> postLearning(@RequestParam int skillFolderId, @RequestBody DtoLearning dtoLearning) {
         // Fill the base info, like creation_date...
-        dtoLearning.put("skill_id", cvBlockFormRepository.getRandomId());
-        DtoLearning reworkedDtoLearning = (DtoLearning) getBaseReworkedDtoExperience(skillFolderId, dtoLearning);
+        dtoLearning.put("learning_id", cvBlockFormRepository.getRandomId());
+        DtoLearning reworkedDtoLearning = (DtoLearning) getBaseReworkedDto(skillFolderId, dtoLearning);
 
         // fill specific date info for learning
         String date = dtoLearning.getString("date");
         reworkedDtoLearning.replace("date", date != null ? Date.from(Instant.parse(date)) : null);
 
         // create in DB the document
-        Document document = cvBlockFormRepository.createExperience(skillFolderId, reworkedDtoLearning);
+        Document document = cvBlockFormRepository.createLearning(skillFolderId, reworkedDtoLearning);
         if (document != null) {
             return ResponseEntity.status(HttpStatus.CREATED).body(reworkedDtoLearning);
         } else {
@@ -145,7 +145,27 @@ public class CvBlockFormController {
         if (document != null) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         } else {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error in creating learning in skillFolder " + skillFolderId);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error in deleting experience in skillFolder " + skillFolderId);
+        }
+    }
+
+    @DeleteMapping("/skill")
+    ResponseEntity<?> deleteSkill(@RequestParam int skillFolderId, @RequestParam int skillId) {
+        Document document = cvBlockFormRepository.deleteSkill(skillFolderId, skillId);
+        if (document != null) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error in deleting skill in skillFolder " + skillFolderId);
+        }
+    }
+
+    @DeleteMapping("/learning")
+    ResponseEntity<?> deleteLearning(@RequestParam int skillFolderId, @RequestParam int learningId) {
+        Document document = cvBlockFormRepository.deleteLearning(skillFolderId, learningId);
+        if (document != null) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error in deleting learning in skillFolder " + skillFolderId);
         }
     }
 
@@ -157,7 +177,7 @@ public class CvBlockFormController {
      * @param document      BsonDocument
      * @return BsonDocument
      */
-    private Document getBaseReworkedDtoExperience(int skillFolderId, Document document) {
+    private Document getBaseReworkedDto(int skillFolderId, Document document) {
         document.put("creation_date", Date.from(Instant.now()));
         document.put("modification_date", Date.from(Instant.now()));
         document.put("deleted", false);

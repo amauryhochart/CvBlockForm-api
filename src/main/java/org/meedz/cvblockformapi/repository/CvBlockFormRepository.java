@@ -178,6 +178,42 @@ public class CvBlockFormRepository {
         return collection.findOneAndUpdate(query, remove);
     }
 
+    public Document deleteSkill(int skillFolderId, int skillId) {
+        // get the collection
+        MongoCollection<Document> collection = mongoTemplate.getCollection("skillfolder");
+
+        // set a query with skill_folder_id
+        BasicDBObject query = new BasicDBObject();
+        query.put("skill_folder_id", skillFolderId);
+
+        // remove the experience in experiences in the skill_folder_id
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("skill_id", skillId);
+        BasicDBObject fields = new BasicDBObject("skills", map);
+        BasicDBObject remove = new BasicDBObject("$pull", fields);
+
+        // remove the experience in the skillFolder in database
+        return collection.findOneAndUpdate(query, remove);
+    }
+
+    public Document deleteLearning(int skillFolderId, int learningId) {
+        // get the collection
+        MongoCollection<Document> collection = mongoTemplate.getCollection("skillfolder");
+
+        // set a query with skill_folder_id
+        BasicDBObject query = new BasicDBObject();
+        query.put("skill_folder_id", skillFolderId);
+
+        // remove the experience in experiences in the skill_folder_id
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("learning_id", learningId);
+        BasicDBObject fields = new BasicDBObject("learnings", map);
+        BasicDBObject remove = new BasicDBObject("$pull", fields);
+
+        // remove the experience in the skillFolder in database
+        return collection.findOneAndUpdate(query, remove);
+    }
+
 
     //utils
     public int getRandomId() {

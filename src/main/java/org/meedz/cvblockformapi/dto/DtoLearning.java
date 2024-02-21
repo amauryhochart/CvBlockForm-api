@@ -9,7 +9,7 @@ import java.util.Date;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @ResponseBody
 public class DtoLearning extends Document {
-    private int skill_id;
+    private int learning_id;
     private Date creation_date;
     private Date modification_date;
     private Boolean deleted;
