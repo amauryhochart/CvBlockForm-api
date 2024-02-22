@@ -1,16 +1,15 @@
-package org.meedz.cvblockformapi.model;
+package org.meedz.cvblockformapi.dto;
 
-import lombok.Builder;
-import lombok.Data;
-import org.springframework.data.mongodb.core.mapping.Document;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.bson.Document;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Date;
 import java.util.List;
 
-@Data
-@Builder
-@Document(collection = "skillfolder")
-public class SkillFolder {
+@JsonIgnoreProperties(ignoreUnknown = true)
+@ResponseBody
+public class DtoSkillFolder extends Document {
 
     public int skill_folder_id;
     public Date creation_date;
@@ -25,8 +24,8 @@ public class SkillFolder {
     public String first_name;
     public String actual_function;
     public Date disponibility;
-    public List<Skill> skills;
-    public List<Experience> experiences;
-    public List<Learning> learnings;
+    public List<DtoSkill> skills;
+    public List<DtoExperience> experiences;
+    public List<DtoLearning> learnings;
 
 }

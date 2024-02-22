@@ -1,9 +1,11 @@
 package org.meedz.cvblockformapi.rc;
 
+import com.mongodb.client.result.DeleteResult;
 import org.bson.Document;
 import org.meedz.cvblockformapi.dto.DtoExperience;
 import org.meedz.cvblockformapi.dto.DtoLearning;
 import org.meedz.cvblockformapi.dto.DtoSkill;
+import org.meedz.cvblockformapi.dto.DtoSkillFolder;
 import org.meedz.cvblockformapi.model.SkillFolder;
 import org.meedz.cvblockformapi.repository.CvBlockFormRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -186,10 +189,36 @@ public class CvBlockFormController {
     }
 
     @PostMapping("/skillfolder")
-    ResponseEntity<?> postSkillFolder(@RequestBody String jsonString) {
-        Document doc = Document.parse(jsonString);
-        SkillFolder skillFolder = cvBlockFormRepository.createSkillFolderFromDocument(doc);
-        return ResponseEntity.ok(skillFolder);
+    ResponseEntity<?> postSkillFolder(@RequestBody DtoSkillFolder dtoSkillFolder) {
+        // Fill the base info, like creation_date...
+        DtoSkillFolder reworkedDtoSkillFolder = (DtoSkillFolder) getBaseReworkedDto(cvBlockFormRepository.getRandomId(), dtoSkillFolder);
+
+        // fill specific date info for the consultant in the skillFolder
+        String date = dtoSkillFolder.getString("disponibility");
+        reworkedDtoSkillFolder.replace("disponibility", date != null ? Date.from(Instant.parse(date)) : null);
+
+        reworkedDtoSkillFolder.putIfAbsent("experiences", new ArrayList<>());
+        reworkedDtoSkillFolder.putIfAbsent("skills", new ArrayList<>());
+        reworkedDtoSkillFolder.putIfAbsent("learnings", new ArrayList<>());
+
+        // create in DB the document
+        Document document = cvBlockFormRepository.createSkillFolder(reworkedDtoSkillFolder);
+        if (document != null) {
+            return ResponseEntity.status(HttpStatus.CREATED).body(reworkedDtoSkillFolder);
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error in creating skillFolder " + reworkedDtoSkillFolder.getInteger("skill_folder_id"));
+        }
     }
+
+    @DeleteMapping("/skillfolder")
+    ResponseEntity<?> deleteSkillFolder(@RequestParam int skillFolderId) {
+        DeleteResult deleted = cvBlockFormRepository.deleteSkillFolder(skillFolderId);
+        if (deleted.wasAcknowledged()) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error in deleting skillFolder " + skillFolderId);
+        }
+    }
+
 
 }

@@ -4,10 +4,12 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.InsertOneResult;
+import org.bson.BsonValue;
 import org.bson.Document;
 import org.bson.types.ObjectId;
-import org.meedz.cvblockformapi.model.*;
+import org.meedz.cvblockformapi.model.SkillFolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -65,10 +67,10 @@ public class CvBlockFormRepository {
                 .tjm(document.getInteger("experience_years"))
                 .mobility(document.getString("mobility"))
                 .languages(document.getList("languages", String.class))
-                .consultant(document.get("consultant", Consultant.class))
-                .skills(document.getList("skills", Skill.class))
-                .experiences(document.getList("experiences", Experience.class))
-                .learnings(document.getList("learnings", Learning.class))
+//                .consultant(document.get("consultant", Consultant.class))
+//                .skills(document.getList("skills", Skill.class))
+//                .experiences(document.getList("experiences", Experience.class))
+//                .learnings(document.getList("learnings", Learning.class))
                 .build();
 
         Document consultant = new Document()
@@ -186,7 +188,7 @@ public class CvBlockFormRepository {
         BasicDBObject query = new BasicDBObject();
         query.put("skill_folder_id", skillFolderId);
 
-        // remove the experience in experiences in the skill_folder_id
+        // remove the skill in skills in the skill_folder_id
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("skill_id", skillId);
         BasicDBObject fields = new BasicDBObject("skills", map);
@@ -204,7 +206,7 @@ public class CvBlockFormRepository {
         BasicDBObject query = new BasicDBObject();
         query.put("skill_folder_id", skillFolderId);
 
-        // remove the experience in experiences in the skill_folder_id
+        // remove the learning in learnings in the skill_folder_id
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("learning_id", learningId);
         BasicDBObject fields = new BasicDBObject("learnings", map);
@@ -212,6 +214,26 @@ public class CvBlockFormRepository {
 
         // remove the experience in the skillFolder in database
         return collection.findOneAndUpdate(query, remove);
+    }
+
+    public Document createSkillFolder(Document document) {
+        // get the collection
+        MongoCollection<Document> collection = mongoTemplate.getCollection("skillfolder");
+        BsonValue newlyInsertedId = collection.insertOne(document).getInsertedId();
+        BasicDBObject query = new BasicDBObject();
+        query.put("_id", newlyInsertedId);
+        return collection.find(query).first();
+    }
+
+    public DeleteResult deleteSkillFolder(int skillFolderId) {
+        // get the collection
+        MongoCollection<Document> collection = mongoTemplate.getCollection("skillfolder");
+
+        BasicDBObject query = new BasicDBObject();
+        query.put("skill_folder_id", skillFolderId);
+
+        // remove the experience in the skillFolder in database
+        return collection.deleteOne(query);
     }
 
 
