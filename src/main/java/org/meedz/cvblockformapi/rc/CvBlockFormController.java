@@ -1,6 +1,7 @@
 package org.meedz.cvblockformapi.rc;
 
 import com.mongodb.client.result.DeleteResult;
+import com.mongodb.client.result.UpdateResult;
 import org.bson.Document;
 import org.meedz.cvblockformapi.dto.DtoExperience;
 import org.meedz.cvblockformapi.dto.DtoLearning;
@@ -218,6 +219,29 @@ public class CvBlockFormController {
         } else {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error in deleting skillFolder " + skillFolderId);
         }
+    }
+
+    @PutMapping("/skillfolder")
+    ResponseEntity<?> putSkillFolder(@RequestParam int skillFolderId, @RequestBody DtoSkillFolder dtoSkillFolder) {
+        // Fill the base info, like creation_date...
+        DtoSkillFolder reworkedDtoSkillFolder = (DtoSkillFolder) getBaseReworkedDto(cvBlockFormRepository.getRandomId(), dtoSkillFolder);
+
+        // fill specific date info for the consultant in the skillFolder
+        String date = dtoSkillFolder.getString("disponibility");
+        reworkedDtoSkillFolder.replace("disponibility", date != null ? Date.from(Instant.parse(date)) : null);
+
+        reworkedDtoSkillFolder.putIfAbsent("experiences", new ArrayList<>());
+        reworkedDtoSkillFolder.putIfAbsent("skills", new ArrayList<>());
+        reworkedDtoSkillFolder.putIfAbsent("learnings", new ArrayList<>());
+
+        // update in DB the document
+        UpdateResult updateResult = cvBlockFormRepository.putSkillFolder(skillFolderId, reworkedDtoSkillFolder);
+        if (updateResult.getMatchedCount() > 0) {
+            return ResponseEntity.ok(reworkedDtoSkillFolder);
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error in edit skillFolder " + skillFolderId);
+        }
+
     }
 
 

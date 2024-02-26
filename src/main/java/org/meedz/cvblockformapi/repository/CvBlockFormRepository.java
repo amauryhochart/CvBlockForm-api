@@ -6,6 +6,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.InsertOneResult;
+import com.mongodb.client.result.UpdateResult;
 import org.bson.BsonValue;
 import org.bson.Document;
 import org.bson.types.ObjectId;
@@ -234,6 +235,35 @@ public class CvBlockFormRepository {
 
         // remove the experience in the skillFolder in database
         return collection.deleteOne(query);
+    }
+
+    public UpdateResult putSkillFolder(int skillFolderId, Document document) {
+        // get the collection
+        MongoCollection<Document> collection = mongoTemplate.getCollection("skillfolder");
+
+        // set a query with skill_folder_id
+        BasicDBObject query = new BasicDBObject();
+        query.put("skill_folder_id", skillFolderId);
+
+        // update fields in the skill_folder_id
+        BasicDBObject updateFields = new BasicDBObject();
+        updateFields.append("modification_date", Date.from(Instant.now()));
+        updateFields.append("first_name", document.getString("first_name"));
+        updateFields.append("last_name", document.getString("last_name"));
+        updateFields.append("actual_function", document.getString("actual_function"));
+        updateFields.append("experience_years", document.getInteger("experience_years"));
+        updateFields.append("email", document.getString("email"));
+        updateFields.append("disponibility", document.getDate("disponibility"));
+        updateFields.append("tjm", document.getInteger("tjm"));
+        updateFields.append("mobility", document.getString("mobility"));
+        updateFields.append("languages", document.getList("languages", String.class));
+        BasicDBObject setQuery = new BasicDBObject();
+        setQuery.append("$set", updateFields);
+
+        // update in database the skillFolder
+        UpdateResult updateResult = collection.updateMany(query, setQuery);
+
+        return updateResult;
     }
 
 
