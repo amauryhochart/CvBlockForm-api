@@ -310,5 +310,51 @@ public class CvBlockFormController {
         }
     }
 
+    /**
+     * Endpoint to Edit a skill in the SkillFolder.skills list.
+     *
+     * @param skillFolderId Integer skillFolderId
+     * @param dtoSkill JSON DTO of the skill in the React form
+     * @return the JSON DTO of the experience with 200 HTTP OK
+     */
+    @PutMapping("/skill")
+    ResponseEntity<?> putSkill(@RequestParam int skillFolderId, @RequestBody DtoSkill dtoSkill) {
+        // Fill the base info, like creation_date...
+        DtoSkill reworkedDtoSkill = (DtoSkill) getBaseReworkedDto(skillFolderId, dtoSkill);
+
+        // update in DB the document
+        UpdateResult updateResult = cvBlockFormRepository.putSkill(skillFolderId, reworkedDtoSkill);
+        if (updateResult.getMatchedCount() > 0) {
+            return ResponseEntity.ok(reworkedDtoSkill);
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error in edit skill " + dtoSkill.get("skill_id") + " in the skillFolder " + skillFolderId);
+        }
+    }
+
+    /**
+     * Endpoint to Edit a learning in the SkillFolder.learnings list.
+     *
+     * @param skillFolderId Integer skillFolderId
+     * @param dtoLearning JSON DTO of the learning in the React form
+     * @return the JSON DTO of the learning with 200 HTTP OK
+     */
+    @PutMapping("/learning")
+    ResponseEntity<?> putLearning(@RequestParam int skillFolderId, @RequestBody DtoLearning dtoLearning) {
+        // Fill the base info, like creation_date...
+        DtoLearning reworkedDtoLearning = (DtoLearning) getBaseReworkedDto(skillFolderId, dtoLearning);
+
+        // fill specific date info for learning
+        String date = dtoLearning.getString("date");
+        reworkedDtoLearning.replace("date", date != null ? Date.from(Instant.parse(date)) : null);
+
+        // update in DB the document
+        UpdateResult updateResult = cvBlockFormRepository.putLearning(skillFolderId, reworkedDtoLearning);
+        if (updateResult.getMatchedCount() > 0) {
+            return ResponseEntity.ok(reworkedDtoLearning);
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error in edit learning " + dtoLearning.get("learning_id") + " in the skillFolder " + skillFolderId);
+        }
+    }
+
 
 }

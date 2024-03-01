@@ -309,6 +309,63 @@ public class CvBlockFormRepository {
         return collection.updateOne(filter, setQuery);
     }
 
+    /**
+     * Update a skill in the skill list in the skillFolder.
+     *
+     * @param skillFolderId the id of the concerned skillFolder
+     * @param document      BsonDocument of the concerned Skill Object
+     * @return UpdateResult result of the update operation with counted modifications
+     */
+    public UpdateResult putSkill(int skillFolderId, Document document) {
+        // get the collection
+        MongoCollection<Document> collection = mongoTemplate.getCollection("skillfolder");
+
+        // set a query with skill_folder_id and skill_id
+        Bson filter = Filters.and(Filters.eq("skill_folder_id", skillFolderId), Filters.eq("skills.skill_id", document.get("skill_id")));
+
+        // update fields in the skill with the $ which represent the element in array
+        BasicDBObject updateFields = new BasicDBObject();
+        updateFields.append("skills.$.modification_date", Date.from(Instant.now()));
+        updateFields.append("skills.$.name", document.getString("name"));
+        updateFields.append("skills.$.type", document.getString("type"));
+
+        // specify a "set" operation
+        BasicDBObject setQuery = new BasicDBObject();
+        setQuery.append("$set", updateFields);
+
+        // update in database the experience
+        return collection.updateOne(filter, setQuery);
+    }
+
+    /**
+     * Update a learning in the learning list in the skillFolder.
+     *
+     * @param skillFolderId the id of the concerned skillFolder
+     * @param document      BsonDocument of the concerned Learning Object
+     * @return UpdateResult result of the update operation with counted modifications
+     */
+    public UpdateResult putLearning(int skillFolderId, Document document) {
+        // get the collection
+        MongoCollection<Document> collection = mongoTemplate.getCollection("skillfolder");
+
+        // set a query with skill_folder_id and learning_id
+        Bson filter = Filters.and(Filters.eq("skill_folder_id", skillFolderId), Filters.eq("learnings.learning_id", document.get("learning_id")));
+
+        // update fields in the learning with the $ which represent the element in array
+        BasicDBObject updateFields = new BasicDBObject();
+        updateFields.append("learnings.$.modification_date", Date.from(Instant.now()));
+        updateFields.append("learnings.$.name", document.getString("name"));
+        updateFields.append("learnings.$.institution", document.getString("institution"));
+        updateFields.append("learnings.$.date", document.getDate("date"));
+
+        // specify a "set" operation
+        BasicDBObject setQuery = new BasicDBObject();
+        setQuery.append("$set", updateFields);
+
+        // update in database the experience
+        return collection.updateOne(filter, setQuery);
+    }
+
 
     //utils
 
