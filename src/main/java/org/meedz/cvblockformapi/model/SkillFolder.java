@@ -24,9 +24,10 @@ public class SkillFolder {
     public String last_name;
     public String first_name;
     public String actual_function;
-    public Date disponibility;
+    public Date availability;
     public List<Skill> skills;
     public List<Experience> experiences;
     public List<Learning> learnings;
+    public String resume;
 
 }

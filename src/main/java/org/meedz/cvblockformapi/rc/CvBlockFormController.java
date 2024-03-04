@@ -11,6 +11,7 @@ import org.meedz.cvblockformapi.model.SkillFolder;
 import org.meedz.cvblockformapi.repository.CvBlockFormRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +31,33 @@ public class CvBlockFormController {
 
     @Autowired
     private CvBlockFormRepository cvBlockFormRepository;
+
+    /**
+     * Get HTTP headers for response.
+     *
+     * @return headers
+     */
+    private static HttpHeaders getHttpHeaders() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json; charset=UTF-8");
+        headers.add("Content-Encoding", "gzip");
+        return headers;
+    }
+
+    /**
+     * Base methods to create abstract info...
+     *
+     * @param skillFolderId Integer
+     * @param document      BsonDocument
+     * @return BsonDocument
+     */
+    private Document getBaseReworkedDto(int skillFolderId, Document document) {
+        document.put("creation_date", Date.from(Instant.now()));
+        document.put("modification_date", Date.from(Instant.now()));
+        document.put("deleted", false);
+        document.put("skill_folder_id", skillFolderId);
+        return document;
+    }
 
     /**
      * Endpoint to Create an Object Document directly in DB.
@@ -52,8 +80,9 @@ public class CvBlockFormController {
      */
     @GetMapping("/skillfolder")
     ResponseEntity<?> getSkillFolder(@RequestParam long id) {
+        HttpHeaders headers = getHttpHeaders();
         SkillFolder skillFolder = cvBlockFormRepository.getSkillFolderById(id);
-        return ResponseEntity.ok(skillFolder);
+        return ResponseEntity.ok().headers(headers).body(skillFolder);
     }
 
     /**
@@ -131,8 +160,10 @@ public class CvBlockFormController {
         DtoLearning reworkedDtoLearning = (DtoLearning) getBaseReworkedDto(skillFolderId, dtoLearning);
 
         // fill specific date info for learning
-        String date = dtoLearning.getString("date");
-        reworkedDtoLearning.replace("date", date != null ? Date.from(Instant.parse(date)) : null);
+        String begin_date = dtoLearning.getString("begin_date");
+        reworkedDtoLearning.replace("begin_date", begin_date != null ? Date.from(Instant.parse(begin_date)) : null);
+        String ending_date = dtoLearning.getString("ending_date");
+        reworkedDtoLearning.replace("ending_date", ending_date != null ? Date.from(Instant.parse(ending_date)) : null);
 
         // create in DB the document
         Document document = cvBlockFormRepository.createLearning(skillFolderId, reworkedDtoLearning);
@@ -194,22 +225,6 @@ public class CvBlockFormController {
         }
     }
 
-
-    /**
-     * Base methods to create abstract info...
-     *
-     * @param skillFolderId Integer
-     * @param document      BsonDocument
-     * @return BsonDocument
-     */
-    private Document getBaseReworkedDto(int skillFolderId, Document document) {
-        document.put("creation_date", Date.from(Instant.now()));
-        document.put("modification_date", Date.from(Instant.now()));
-        document.put("deleted", false);
-        document.put("skill_folder_id", skillFolderId);
-        return document;
-    }
-
     /**
      * Endpoint to Create a SkillFolder.
      *
@@ -222,8 +237,8 @@ public class CvBlockFormController {
         DtoSkillFolder reworkedDtoSkillFolder = (DtoSkillFolder) getBaseReworkedDto(cvBlockFormRepository.getRandomId(), dtoSkillFolder);
 
         // fill specific date info for the consultant in the skillFolder
-        String date = dtoSkillFolder.getString("disponibility");
-        reworkedDtoSkillFolder.replace("disponibility", date != null ? Date.from(Instant.parse(date)) : null);
+        String date = dtoSkillFolder.getString("availability");
+        reworkedDtoSkillFolder.replace("availability", date != null ? Date.from(Instant.parse(date)) : null);
 
         reworkedDtoSkillFolder.putIfAbsent("experiences", new ArrayList<>());
         reworkedDtoSkillFolder.putIfAbsent("skills", new ArrayList<>());
@@ -267,8 +282,8 @@ public class CvBlockFormController {
         DtoSkillFolder reworkedDtoSkillFolder = (DtoSkillFolder) getBaseReworkedDto(skillFolderId, dtoSkillFolder);
 
         // fill specific date info for the consultant in the skillFolder
-        String date = dtoSkillFolder.getString("disponibility");
-        reworkedDtoSkillFolder.replace("disponibility", date != null ? Date.from(Instant.parse(date)) : null);
+        String date = dtoSkillFolder.getString("availability");
+        reworkedDtoSkillFolder.replace("availability", date != null ? Date.from(Instant.parse(date)) : null);
 
         reworkedDtoSkillFolder.putIfAbsent("experiences", new ArrayList<>());
         reworkedDtoSkillFolder.putIfAbsent("skills", new ArrayList<>());
@@ -314,7 +329,7 @@ public class CvBlockFormController {
      * Endpoint to Edit a skill in the SkillFolder.skills list.
      *
      * @param skillFolderId Integer skillFolderId
-     * @param dtoSkill JSON DTO of the skill in the React form
+     * @param dtoSkill      JSON DTO of the skill in the React form
      * @return the JSON DTO of the experience with 200 HTTP OK
      */
     @PutMapping("/skill")
@@ -335,7 +350,7 @@ public class CvBlockFormController {
      * Endpoint to Edit a learning in the SkillFolder.learnings list.
      *
      * @param skillFolderId Integer skillFolderId
-     * @param dtoLearning JSON DTO of the learning in the React form
+     * @param dtoLearning   JSON DTO of the learning in the React form
      * @return the JSON DTO of the learning with 200 HTTP OK
      */
     @PutMapping("/learning")
@@ -344,8 +359,10 @@ public class CvBlockFormController {
         DtoLearning reworkedDtoLearning = (DtoLearning) getBaseReworkedDto(skillFolderId, dtoLearning);
 
         // fill specific date info for learning
-        String date = dtoLearning.getString("date");
-        reworkedDtoLearning.replace("date", date != null ? Date.from(Instant.parse(date)) : null);
+        String begin_date = dtoLearning.getString("begin_date");
+        reworkedDtoLearning.replace("begin_date", begin_date != null ? Date.from(Instant.parse(begin_date)) : null);
+        String ending_date = dtoLearning.getString("ending_date");
+        reworkedDtoLearning.replace("ending_date", ending_date != null ? Date.from(Instant.parse(ending_date)) : null);
 
         // update in DB the document
         UpdateResult updateResult = cvBlockFormRepository.putLearning(skillFolderId, reworkedDtoLearning);

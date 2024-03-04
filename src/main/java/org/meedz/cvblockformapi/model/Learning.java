@@ -14,6 +14,7 @@ public class Learning {
     public BigInteger skill_folder_id;
     public String name;
     public String institution;
-    public Date date;
+    public Date begin_date;
+    public Date ending_date;
 
 }

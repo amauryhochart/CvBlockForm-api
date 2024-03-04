@@ -267,7 +267,7 @@ public class CvBlockFormRepository {
         updateFields.append("actual_function", document.getString("actual_function"));
         updateFields.append("experience_years", document.getInteger("experience_years"));
         updateFields.append("email", document.getString("email"));
-        updateFields.append("disponibility", document.getDate("disponibility"));
+        updateFields.append("availability", document.getDate("availability"));
         updateFields.append("tjm", document.getInteger("tjm"));
         updateFields.append("mobility", document.getString("mobility"));
         updateFields.append("languages", document.getList("languages", String.class));
