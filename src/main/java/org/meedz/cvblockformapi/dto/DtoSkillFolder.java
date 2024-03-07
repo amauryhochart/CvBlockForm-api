@@ -1,5 +1,6 @@
 package org.meedz.cvblockformapi.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.bson.Document;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -19,6 +20,7 @@ public class DtoSkillFolder extends Document {
     public String email;
     public int tjm;
     public String mobility;
+    @JsonFormat(shape = JsonFormat.Shape.ARRAY)
     public List<String> languages;
     public String last_name;
     public String first_name;

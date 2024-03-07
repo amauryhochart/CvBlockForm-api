@@ -9,6 +9,7 @@ import org.meedz.cvblockformapi.dto.DtoSkill;
 import org.meedz.cvblockformapi.dto.DtoSkillFolder;
 import org.meedz.cvblockformapi.model.SkillFolder;
 import org.meedz.cvblockformapi.repository.CvBlockFormRepository;
+import org.meedz.cvblockformapi.service.CvBlockFormService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.http.HttpHeaders;
@@ -31,6 +32,9 @@ public class CvBlockFormController {
 
     @Autowired
     private CvBlockFormRepository cvBlockFormRepository;
+
+    @Autowired
+    private CvBlockFormService cvBlockFormService;
 
     /**
      * Get HTTP headers for response.
@@ -371,6 +375,14 @@ public class CvBlockFormController {
         } else {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error in edit learning " + dtoLearning.get("learning_id") + " in the skillFolder " + skillFolderId);
         }
+    }
+
+    @GetMapping("/pdf")
+    ResponseEntity<?> getPdf(@RequestParam long skillFolderId) {
+        // get the pdf from DB
+        SkillFolder skillFolder = cvBlockFormRepository.getSkillFolderById(skillFolderId);
+        cvBlockFormService.generatePdfFromHtml(skillFolder);
+        return ResponseEntity.ok().build();
     }
 
 
