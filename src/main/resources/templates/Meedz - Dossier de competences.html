@@ -4,163 +4,60 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>Meedz - Dossier de compétences.docx</title>
-    <link th:href="@{src/main/resources/primeflex.min.css}" rel="stylesheet"/>
-    <style type="text/css"> * {margin:0; padding:0; text-indent:0; }
- .s1 { color: black; font-family:Calibri, sans-serif; font-style: normal; font-weight: bold; text-decoration: none; font-size: 18pt; }
- h2 { color: #3772FF; font-family:Calibri, sans-serif; font-style: normal; font-weight: bold; text-decoration: none; font-size: 16pt; }
- .s2 { color: black; font-family:Calibri, sans-serif; font-style: italic; font-weight: normal; text-decoration: none; font-size: 12pt; }
- .s3 { color: black; font-family:Arial, sans-serif; font-style: italic; font-weight: normal; text-decoration: none; font-size: 12pt; }
- h1 { color: #3772FF; font-family:Calibri, sans-serif; font-style: normal; font-weight: bold; text-decoration: none; font-size: 18pt; }
- .s4 { color: black; font-family:Calibri, sans-serif; font-style: normal; font-weight: normal; text-decoration: none; font-size: 13pt; }
- .s5 { color: #3770FF; font-family:Calibri, sans-serif; font-style: normal; font-weight: bold; text-decoration: none; font-size: 18pt; }
- .s6 { color: #B880FF; font-family:Calibri, sans-serif; font-style: normal; font-weight: normal; text-decoration: underline; font-size: 12pt; }
- .p, p { color: black; font-family:Calibri, sans-serif; font-style: normal; font-weight: normal; text-decoration: none; font-size: 11pt; margin:0pt; }
- .s7 { color: black; font-family:Arial, sans-serif; font-style: normal; font-weight: normal; text-decoration: none; font-size: 11pt; }
- .s8 { color: #3772FF; font-family:Calibri, sans-serif; font-style: normal; font-weight: normal; text-decoration: none; font-size: 14pt; }
- .s9 { color: black; font-family:Calibri, sans-serif; font-style: normal; font-weight: normal; text-decoration: underline; font-size: 11pt; }
- .s10 { color: black; font-family:Calibri, sans-serif; font-style: normal; font-weight: normal; text-decoration: none; font-size: 7pt; vertical-align: 3pt; }
- .s11 { color: black; font-family:Calibri, sans-serif; font-style: normal; font-weight: normal; text-decoration: none; font-size: 12pt; }
- h3 { color: black; font-family:Calibri, sans-serif; font-style: normal; font-weight: bold; text-decoration: none; font-size: 12pt; }
-        hr {color: #3772FF}
+    <link th:href="@{src/main/resources/static/primeflex.css}" rel="stylesheet"/>
+    <style type="text/css">
+        .s1 { color: black; font-family:Calibri, sans-serif; font-style: normal; font-weight: bold; text-decoration: none; font-size: 18pt; }
+        h2 { color: #3772FF; font-family:Calibri, sans-serif; font-style: normal; font-weight: bold; text-decoration: none; font-size: 16pt; }
+        .s2 { color: black; font-family:Calibri, sans-serif; font-style: italic; font-weight: normal; text-decoration: none; font-size: 12pt; }
+        .s3 { color: black; font-family:Arial, sans-serif; font-style: italic; font-weight: normal; text-decoration: none; font-size: 12pt; }
+        h1 { color: #3772FF; font-family:Calibri, sans-serif; font-style: normal; font-weight: bold; text-decoration: none; font-size: 18pt; }
+        .s4 { color: black; font-family:Calibri, sans-serif; font-style: normal; font-weight: normal; text-decoration: none; font-size: 13pt; }
+        .s5 { color: #3770FF; font-family:Calibri, sans-serif; font-style: normal; font-weight: bold; text-decoration: none; font-size: 18pt; }
+        .s6 { color: #B880FF; font-family:Calibri, sans-serif; font-style: normal; font-weight: normal; text-decoration: underline; font-size: 12pt; }
+        .p, p { color: black; font-family:Calibri, sans-serif; font-style: normal; font-weight: normal; text-decoration: none; font-size: 11pt; margin:0pt; }
+        .s7 { color: black; font-family:Arial, sans-serif; font-style: normal; font-weight: normal; text-decoration: none; font-size: 11pt; }
+        .s8 { color: #3772FF; font-family:Calibri, sans-serif; font-style: normal; font-weight: normal; text-decoration: none; font-size: 14pt; }
+        .s9 { color: black; font-family:Calibri, sans-serif; font-style: normal; font-weight: normal; text-decoration: underline; font-size: 11pt; }
+        .s10 { color: black; font-family:Calibri, sans-serif; font-style: normal; font-weight: normal; text-decoration: none; font-size: 7pt; vertical-align: 3pt; }
+        .s11 { color: black; font-family:Calibri, sans-serif; font-style: normal; font-weight: normal; text-decoration: none; font-size: 12pt; }
+        h3 { color: black; font-family:Calibri, sans-serif; font-style: normal; font-weight: bold; text-decoration: none; font-size: 12pt; }
+               hr {color: #3772FF}
     </style>
 </head>
 <body style="padding-left: 30pt; padding-right: 35pt">
-<p style="text-align: right">
+<div style="text-align: right">
     <img th:src="@{src/main/resources/images/meedz-title.jpg}" alt="logo MEEDZ" width="24%"/>
-</p>
-<span>
+</div>
+<div>
     <img th:src="@{src/main/resources/images/meedz-logo.jpg}" alt="logo MEEDZ" width="80pt"/>
-</span>
+    <p style="margin-left: 100pt">
+    <h1
+            style="color: black"
+            th:text="${first_name}">
+    </h1>
+    <h2
+            th:text="${actual_function}">
+    </h2>
+    <h2
+            th:text="${experience_years} + ' années d\'expériences'">
+    </h2>
+    </p>
+</div>
 <p
-        class="s1"
-        style="padding-top: 12pt;padding-left: 91pt;text-indent: 0pt;line-height: 22pt;text-align: left;"
-        th:text="${first_name}">
-</p>
-<h2
-        style="padding-left: 91pt;text-indent: 0pt;text-align: left;"
-        th:text="${actual_function}">
-</h2>
-<h2
-        style="padding-left: 91pt;text-indent: 0pt;text-align: left;"
-        th:text="${experience_years} + ' années d\'expériences'">
-</h2>
-<p
-        class="s2"
-        style="padding-top: 14pt;padding-left: 5pt;text-indent: 0pt;text-align: justify;"
+        style="padding-top: 14pt; padding-bottom: 10pt; padding-left: 5pt;text-indent: 0pt;text-align: justify;"
         th:text="${resume}">
 </p>
 <hr/>
-<h1 style="padding-top: 11pt;padding-left: 5pt;text-indent: 0pt;text-align: left;">Résumé</h1>
+<h1 style="padding-top: 10pt; padding-bottom: 10pt; text-indent: 0pt; text-align: left;">Résumé</h1>
 <ul>
     <li
             th:each="experience : ${experiences}"
-            th:text="${experience.begin_date.toString()} + ' au ' + ${experience.ending_date.toString()} + ' : ' + ${experience.client} + ' - ' + ${experience.work_function}"
-            style="padding-top: 9pt;padding-left: 45pt;text-indent: -17pt;text-align: left;">
+            th:text="${experience.convertDateToString(experience.begin_date)} + ' au ' + ${experience.convertDateToString(experience.ending_date)} + ' : ' + ${experience.client} + ' - ' + ${experience.work_function}">
     </li>
 </ul>
-
 <hr/>
-
-<ul id="l1">
-    <li data-list-text="●"><p class="s4"
-                              style="padding-top: 9pt;padding-left: 41pt;text-indent: -17pt;text-align: left;">09/2021
-        au 01/2024 : Sopra Steria – Ingénieur d’études et développement</p></li>
-    <li data-list-text="●"><p class="s4" style="padding-left: 41pt;text-indent: -17pt;text-align: left;">09/2017 au
-        09/2021 : Fichorga – Apprenti ingénieur ops/développement</p>
-        <p style="padding-top: 7pt;text-indent: 0pt;text-align: left;"><br/></p>
-        <p style="padding-left: 11pt;text-indent: 0pt;line-height: 2pt;text-align: left;"><span/></p>
-        <p class="s5" style="padding-top: 14pt;padding-left: 5pt;text-indent: 0pt;text-align: left;">Compétences</p>
-        <p style="text-indent: 0pt;text-align: left;"><br/></p>
-        <p class="s6" style="padding-top: 4pt;padding-left: 5pt;text-indent: 0pt;line-height: 15pt;text-align: left;">
-            Périmètre Métier</p></li>
-    <li data-list-text="●"><p style="padding-left: 41pt;text-indent: -17pt;text-align: left;">Gestion de production</p>
-        <p style="padding-top: 1pt;text-indent: 0pt;text-align: left;"><br/></p>
-        <p class="s6" style="padding-left: 5pt;text-indent: 0pt;line-height: 15pt;text-align: left;">Compétences
-            fonctionnelles / GDP</p></li>
-    <li data-list-text="●"><p style="padding-left: 41pt;text-indent: -17pt;text-align: left;">Audit de l’existant
-        (BPMN2.0)</p></li>
-    <li data-list-text="●"><p style="padding-left: 41pt;text-indent: -17pt;text-align: left;">Recueil du besoin</p></li>
-    <li data-list-text="●"><p style="padding-left: 41pt;text-indent: -18pt;text-align: left;">Rédaction du cahier des
-        charges fonctionnel</p></li>
-    <li data-list-text="●"><p style="padding-left: 41pt;text-indent: -17pt;text-align: left;">Benchmarking</p></li>
-    <li data-list-text="●"><p style="padding-left: 41pt;text-indent: -17pt;text-align: left;">Analyse</p></li>
-    <li data-list-text="●"><p style="padding-left: 41pt;text-indent: -18pt;text-align: left;">Rédaction des
-        spécifications techniques</p></li>
-    <li data-list-text="●"><p style="padding-left: 41pt;text-indent: -17pt;text-align: left;">Tests</p></li>
-    <li data-list-text="●"><p style="padding-left: 41pt;text-indent: -17pt;text-align: left;">Rédaction documentaire</p>
-        <p style="padding-top: 1pt;text-indent: 0pt;text-align: left;"><br/></p>
-        <p class="s6" style="padding-left: 5pt;text-indent: 0pt;line-height: 15pt;text-align: left;">Langages de
-            programmation</p></li>
-    <li data-list-text="●"><p style="padding-left: 41pt;text-indent: -17pt;text-align: left;">JAVA 8 / 11 / 17</p></li>
-    <li data-list-text="●"><p style="padding-left: 41pt;text-indent: -17pt;text-align: left;">JavaScript</p></li>
-    <li data-list-text="●"><p style="padding-left: 41pt;text-indent: -17pt;text-align: left;">TypeScript</p></li>
-    <li data-list-text="●"><p style="padding-left: 41pt;text-indent: -17pt;text-align: left;">Groovy</p></li>
-    <li data-list-text="●"><p style="padding-left: 41pt;text-indent: -17pt;text-align: left;">SQL</p></li>
-    <li data-list-text="●"><p style="padding-left: 41pt;text-indent: -17pt;text-align: left;">HTML</p></li>
-    <li data-list-text="●"><p style="padding-left: 41pt;text-indent: -17pt;text-align: left;">CSS</p>
-        <p style="padding-top: 1pt;text-indent: 0pt;text-align: left;"><br/></p>
-        <p class="s6" style="padding-left: 5pt;text-indent: 0pt;text-align: left;">Framework</p></li>
-    <li data-list-text="●"><p style="padding-top: 4pt;padding-left: 41pt;text-indent: -17pt;text-align: left;">
-        Spring</p>
-        <p style="padding-left: 41pt;text-indent: 0pt;text-align: left;">(Spring boot / Spring data / Spring Security /
-            Spring Cloud)</p></li>
-    <li data-list-text="●"><p style="padding-left: 41pt;text-indent: -17pt;text-align: left;">Angular 2+</p></li>
-    <li data-list-text="●"><p style="padding-left: 41pt;text-indent: -17pt;text-align: left;">JPA</p></li>
-    <li data-list-text="●"><p style="padding-left: 41pt;text-indent: -17pt;text-align: left;">Quarkus</p></li>
-    <li data-list-text="●"><p style="padding-left: 41pt;text-indent: -17pt;text-align: left;">Hibernate</p></li>
-    <li data-list-text="●"><p style="padding-left: 41pt;text-indent: -17pt;text-align: left;">JQuery</p>
-        <p style="padding-top: 1pt;text-indent: 0pt;text-align: left;"><br/></p>
-        <p class="s6" style="padding-left: 5pt;text-indent: 0pt;line-height: 15pt;text-align: left;">Systèmes
-            d’exploitation</p></li>
-    <li data-list-text="●"><p style="padding-left: 41pt;text-indent: -17pt;text-align: left;">Windows</p></li>
-    <li data-list-text="●"><p style="padding-left: 41pt;text-indent: -17pt;text-align: left;">Linux</p>
-        <ul id="l2">
-            <li data-list-text="o"><p style="padding-left: 77pt;text-indent: -17pt;text-align: left;">Ubuntu</p></li>
-            <li data-list-text="o"><p style="padding-left: 77pt;text-indent: -17pt;text-align: left;">Debian</p>
-                <p style="padding-top: 1pt;text-indent: 0pt;text-align: left;"><br/></p>
-                <p class="s6" style="padding-left: 5pt;text-indent: 0pt;line-height: 15pt;text-align: left;">Base de
-                    données</p></li>
-        </ul>
-    </li>
-    <li data-list-text="●"><p style="padding-left: 41pt;text-indent: -17pt;text-align: left;">PostgreSQL,</p></li>
-    <li data-list-text="●"><p style="padding-left: 41pt;text-indent: -17pt;text-align: left;">Oracle</p></li>
-    <li data-list-text="●"><p style="padding-left: 41pt;text-indent: -17pt;text-align: left;">MariaDB</p></li>
-    <li data-list-text="●"><p style="padding-left: 41pt;text-indent: -17pt;text-align: left;">MS SQL</p>
-        <p style="text-indent: 0pt;text-align: left;"><br/></p>
-        <p class="s6" style="padding-left: 5pt;text-indent: 0pt;line-height: 15pt;text-align: left;">Serveurs</p></li>
-    <li data-list-text="●"><p style="padding-left: 41pt;text-indent: -17pt;text-align: left;">Tomcat</p></li>
-    <li data-list-text="●"><p style="padding-top: 3pt;padding-left: 41pt;text-indent: -17pt;text-align: left;">
-        Apache</p>
-        <p class="s6" style="padding-top: 12pt;padding-left: 5pt;text-indent: 0pt;line-height: 15pt;text-align: left;">
-            Cloud</p></li>
-    <li data-list-text="●"><p style="padding-left: 41pt;text-indent: -18pt;text-align: left;">AWS (Certifié Developer -
-        Associate (DVA-C02)</p></li>
-    <li data-list-text="●"><p class="s7"
-                              style="padding-left: 41pt;text-indent: -17pt;line-height: 12pt;text-align: left;">
-        Azure</p></li>
-    <li data-list-text="●"><p class="s7" style="padding-left: 41pt;text-indent: -17pt;text-align: left;">GCP</p>
-        <p style="padding-top: 2pt;text-indent: 0pt;text-align: left;"><br/></p>
-        <p class="s6" style="padding-left: 5pt;text-indent: 0pt;line-height: 15pt;text-align: left;">Architecture</p>
-    </li>
-    <li data-list-text="●"><p style="padding-left: 41pt;text-indent: -17pt;text-align: left;">Micro-services</p></li>
-    <li data-list-text="●"><p style="padding-left: 41pt;text-indent: -17pt;text-align: left;">REST</p></li>
-    <li data-list-text="●"><p style="padding-left: 41pt;text-indent: -17pt;text-align: left;">MVC</p></li>
-    <li data-list-text="●"><p style="padding-left: 41pt;text-indent: -17pt;text-align: left;">JEE</p>
-        <p class="s6" style="padding-top: 4pt;padding-left: 5pt;text-indent: 0pt;line-height: 15pt;text-align: left;">
-            Intégration continue</p></li>
-    <li data-list-text="●"><p style="padding-left: 41pt;text-indent: -17pt;text-align: left;">Jenkins</p></li>
-    <li data-list-text="●"><p style="padding-left: 41pt;text-indent: -17pt;text-align: left;">Maven</p></li>
-    <li data-list-text="●"><p style="padding-left: 41pt;text-indent: -17pt;text-align: left;">Gradle</p>
-        <p style="padding-top: 1pt;text-indent: 0pt;text-align: left;"><br/></p>
-        <p class="s6" style="padding-left: 5pt;text-indent: 0pt;line-height: 15pt;text-align: left;">Outils</p></li>
-    <li data-list-text="●"><p style="padding-left: 41pt;text-indent: -17pt;text-align: left;">Jira,</p></li>
-    <li data-list-text="●"><p style="padding-left: 41pt;text-indent: -17pt;text-align: left;">Confluence</p></li>
-    <li data-list-text="●"><p style="padding-left: 41pt;text-indent: -17pt;text-align: left;">Git</p></li>
-    <li data-list-text="●"><p style="padding-left: 41pt;text-indent: -17pt;text-align: left;">Docker</p></li>
-    <li data-list-text="●"><p style="padding-left: 41pt;text-indent: -17pt;text-align: left;">IntelliJ</p></li>
-</ul>
-<p style="text-indent: 0pt;text-align: left;"><br/></p>
-<p style="padding-left: 5pt;text-indent: 0pt;line-height: 2pt;text-align: left;"><span/></p>
+<h1 style="padding-top: 10pt; padding-bottom: 10pt; text-indent: 0pt; text-align: left;">Compétences</h1>
+<hr/>
 <h1 style="padding-top: 12pt;padding-left: 5pt;text-indent: 0pt;text-align: left;">Expériences Professionnelles</h1>
 <p class="s8" style="padding-top: 13pt;padding-left: 5pt;text-indent: 0pt;text-align: left;">Septembre 2022 à janvier
     2024 – Sopra Steria – Ingénieur d’études et développement</p>

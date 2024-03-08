@@ -3,6 +3,7 @@ package org.meedz.cvblockformapi.model;
 import lombok.Builder;
 import lombok.Data;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Data
@@ -19,4 +20,14 @@ public class Experience {
     public Date ending_date;
     public String details;
 
+    /**
+     * Useful for thymeleaf.
+     *
+     * @param date Date
+     * @return a string date formatted to MM/yyyy
+     */
+    public String convertDateToString(Date date) {
+        SimpleDateFormat formatter = new SimpleDateFormat("MM/yyyy");
+        return formatter.format(date);
+    }
 }

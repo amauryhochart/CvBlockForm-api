@@ -11,12 +11,15 @@ import org.meedz.cvblockformapi.model.SkillFolder;
 import org.meedz.cvblockformapi.repository.CvBlockFormRepository;
 import org.meedz.cvblockformapi.service.CvBlockFormService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.*;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
@@ -381,8 +384,13 @@ public class CvBlockFormController {
     ResponseEntity<?> getPdf(@RequestParam long skillFolderId) {
         // get the pdf from DB
         SkillFolder skillFolder = cvBlockFormRepository.getSkillFolderById(skillFolderId);
-        cvBlockFormService.generatePdfFromHtml(skillFolder);
-        return ResponseEntity.ok().build();
+        File pdf = cvBlockFormService.generatePdfFromHtml(skillFolder);
+        try {
+            InputStreamResource inputStreamResource = new InputStreamResource(new FileInputStream(pdf));
+            return ResponseEntity.ok().contentType(MediaType.APPLICATION_OCTET_STREAM).body(inputStreamResource);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 

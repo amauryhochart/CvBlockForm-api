@@ -14,7 +14,7 @@ import java.io.*;
 @Service
 public class CvBlockFormService {
 
-    public void generatePdfFromHtml(SkillFolder skillFolder) {
+    public File generatePdfFromHtml(SkillFolder skillFolder) {
 //        String outputFolder = System.getProperty("user.home") + File.separator + "thymeleaf.pdf";
         String outputFolder = "exports_pdf" + File.separator + "thymeleaf.pdf";
         OutputStream outputStream = null;
@@ -50,6 +50,7 @@ public class CvBlockFormService {
 
         try {
             outputStream.close();
+            return new File(outputFolder);
         } catch (IOException e) {
             throw new RuntimeException("IO Error to close");
         }
