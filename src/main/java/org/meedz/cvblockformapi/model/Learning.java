@@ -3,6 +3,7 @@ package org.meedz.cvblockformapi.model;
 import lombok.Data;
 
 import java.math.BigInteger;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Data
@@ -16,5 +17,16 @@ public class Learning {
     public String institution;
     public Date begin_date;
     public Date ending_date;
+
+    /**
+     * Useful for thymeleaf.
+     *
+     * @param date Date
+     * @return a string date formatted to MM/yyyy
+     */
+    public String convertDateToString(Date date) {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy");
+        return formatter.format(date);
+    }
 
 }

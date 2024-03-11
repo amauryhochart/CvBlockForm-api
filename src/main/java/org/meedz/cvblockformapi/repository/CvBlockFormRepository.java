@@ -45,15 +45,12 @@ public class CvBlockFormRepository {
         query.addCriteria(Criteria.where("skill_folder_id").is(skillFolderId));
         List<SkillFolder> skillFolderList = mongoTemplate.find(query, SkillFolder.class);
         SkillFolder skillFolder = skillFolderList.get(0);
-        System.out.println(skillFolder.getSkills());
         return skillFolder;
     }
 
     public List<SkillFolder> getSkillFolders() {
         Query query = new Query();
-        List<SkillFolder> skillFolderList = mongoTemplate.find(query, SkillFolder.class);
-        System.out.println(skillFolderList.stream().map((SkillFolder::getSkill_folder_id)));
-        return skillFolderList;
+        return mongoTemplate.find(query, SkillFolder.class);
     }
 
     public SkillFolder createSkillFolderFromDocument(Document document) {
@@ -270,7 +267,7 @@ public class CvBlockFormRepository {
         updateFields.append("availability", document.getDate("availability"));
         updateFields.append("tjm", document.getInteger("tjm"));
         updateFields.append("mobility", document.getString("mobility"));
-        updateFields.append("languages", document.getList("languages", String.class));
+        updateFields.append("resume", document.getString("resume"));
         BasicDBObject setQuery = new BasicDBObject();
         setQuery.append("$set", updateFields);
 

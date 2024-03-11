@@ -7,10 +7,10 @@
     <link th:href="@{src/main/resources/static/primeflex.css}" rel="stylesheet"/>
     <style type="text/css">
         .s1 { color: black; font-family:Calibri, sans-serif; font-style: normal; font-weight: bold; text-decoration: none; font-size: 18pt; }
-        h2 { color: #3772FF; font-family:Calibri, sans-serif; font-style: normal; font-weight: bold; text-decoration: none; font-size: 16pt; }
+        h2 { color: #3772FF; font-family:Calibri, sans-serif; font-style: normal; font-weight: bold; text-decoration: none; font-size: 16pt; margin:0pt; }
         .s2 { color: black; font-family:Calibri, sans-serif; font-style: italic; font-weight: normal; text-decoration: none; font-size: 12pt; }
         .s3 { color: black; font-family:Arial, sans-serif; font-style: italic; font-weight: normal; text-decoration: none; font-size: 12pt; }
-        h1 { color: #3772FF; font-family:Calibri, sans-serif; font-style: normal; font-weight: bold; text-decoration: none; font-size: 18pt; }
+        h1 { color: #3772FF; font-family:Calibri, sans-serif; font-style: normal; font-weight: bold; text-decoration: none; font-size: 18pt; margin:0pt; }
         .s4 { color: black; font-family:Calibri, sans-serif; font-style: normal; font-weight: normal; text-decoration: none; font-size: 13pt; }
         .s5 { color: #3770FF; font-family:Calibri, sans-serif; font-style: normal; font-weight: bold; text-decoration: none; font-size: 18pt; }
         .s6 { color: #B880FF; font-family:Calibri, sans-serif; font-style: normal; font-weight: normal; text-decoration: underline; font-size: 12pt; }
@@ -24,318 +24,76 @@
                hr {color: #3772FF}
     </style>
 </head>
+
 <body style="padding-left: 30pt; padding-right: 35pt">
+
 <div style="text-align: right">
     <img th:src="@{src/main/resources/images/meedz-title.jpg}" alt="logo MEEDZ" width="24%"/>
 </div>
-<div>
-    <img th:src="@{src/main/resources/images/meedz-logo.jpg}" alt="logo MEEDZ" width="80pt"/>
-    <p style="margin-left: 100pt">
-    <h1
-            style="color: black"
-            th:text="${first_name}">
-    </h1>
-    <h2
-            th:text="${actual_function}">
-    </h2>
-    <h2
-            th:text="${experience_years} + ' années d\'expériences'">
-    </h2>
-    </p>
+<div style="display: inline-block; width: 100%; margin-bottom: 20pt">
+    <span style="display: inline-block; width: 22%">
+        <img th:src="@{src/main/resources/images/meedz-logo.jpg}" alt="logo MEEDZ" width="80pt"/>
+    </span>
+    <span style="display: inline-block; width: 70%">
+        <h1
+                style="color: black"
+                th:text="${first_name}">
+        </h1>
+        <h2
+                th:text="${actual_function}">
+        </h2>
+        <h2
+                th:text="${experience_years} + ' années d\'expériences'">
+        </h2>
+    </span>
 </div>
-<p
-        style="padding-top: 14pt; padding-bottom: 10pt; padding-left: 5pt;text-indent: 0pt;text-align: justify;"
-        th:text="${resume}">
-</p>
+
+<div th:remove="tag" th:utext="${resume}" class="s1"></div>
+
 <hr/>
-<h1 style="padding-top: 10pt; padding-bottom: 10pt; text-indent: 0pt; text-align: left;">Résumé</h1>
+
+<h1 style="padding-top: 10pt; text-indent: 0pt; text-align: left;">Résumé</h1>
 <ul>
     <li
             th:each="experience : ${experiences}"
             th:text="${experience.convertDateToString(experience.begin_date)} + ' au ' + ${experience.convertDateToString(experience.ending_date)} + ' : ' + ${experience.client} + ' - ' + ${experience.work_function}">
     </li>
 </ul>
+
 <hr/>
-<h1 style="padding-top: 10pt; padding-bottom: 10pt; text-indent: 0pt; text-align: left;">Compétences</h1>
+
+<div style="padding-bottom: 10pt;">
+    <h1 style="padding-top: 10pt; padding-bottom: 10pt;">Compétences</h1>
+    <div th:each="skill : ${skills}">
+        <div class="s6" th:text="${skill.type}"></div>
+        <div class="s4" th:text="${skill.name}"></div>
+    </div>
+</div>
+
 <hr/>
-<h1 style="padding-top: 12pt;padding-left: 5pt;text-indent: 0pt;text-align: left;">Expériences Professionnelles</h1>
-<p class="s8" style="padding-top: 13pt;padding-left: 5pt;text-indent: 0pt;text-align: left;">Septembre 2022 à janvier
-    2024 – Sopra Steria – Ingénieur d’études et développement</p>
-<p class="s6" style="padding-top: 14pt;padding-left: 5pt;text-indent: 0pt;text-align: left;">Contexte</p>
-<p style="padding-top: 14pt;padding-left: 5pt;text-indent: 0pt;text-align: justify;">Ingénieur d&#39;études et
-    développement en mission pour Airbus, client de Sopra Steria et leader mondial de l’aérospatial sur le périmètre
-    &quot;Marketing To Sales&quot;.</p>
-<p style="padding-left: 5pt;text-indent: 0pt;text-align: justify;">Je suis intervenu sur l’application permettant à
-    Airbus d’établir les contrats de ventes avec ses clients (personnes morales et personnes physiques).</p>
-<p style="padding-left: 5pt;text-indent: 0pt;text-align: justify;">J&#39;étais en charge, en tant qu&#39;Ingénieur
-    Développement FullStack, de la conception et la réalisation de l&#39;outil de rédaction des contrats de vente
-    (parties prenantes, spécifications de l&#39;avion, planning prévisionnel de livraison) pour ensuite évoluer sur la
-    partie DevOps où j&#39;ai pû effectuer la migration technique de l&#39;infrastructure sur Openshift 4 et la création
-    des pipelines CI / CD.</p>
-<p class="s9" style="padding-top: 13pt;padding-left: 5pt;text-indent: 0pt;text-align: left;">Organisation des équipes
-    :</p>
-<p style="padding-left: 5pt;text-indent: 0pt;text-align: left;">1 Chef de projet</p>
-<p style="padding-left: 5pt;text-indent: 0pt;text-align: left;">2 tech lead</p>
-<p style="padding-left: 5pt;text-indent: 0pt;text-align: left;">10 Développeurs Full stack 2 Business Analyst</p>
-<p style="padding-left: 5pt;text-indent: 0pt;text-align: left;">1 scrum master</p>
-<p style="padding-left: 5pt;text-indent: 0pt;text-align: left;">1 Product Owner proxy</p>
-<p style="padding-left: 5pt;text-indent: 0pt;text-align: left;">Avec des effectifs répartis en France, Espagne,
-    Canaries, La Réunion et une communication exclusivement en Anglais dans tout le projet.</p>
-<p style="padding-top: 1pt;text-indent: 0pt;text-align: left;"><br/></p>
-<p class="s6" style="padding-left: 5pt;text-indent: 0pt;line-height: 15pt;text-align: left;">Actions</p>
-<ul id="l3">
-    <li data-list-text="-"><p style="padding-left: 41pt;text-indent: -17pt;text-align: left;">Développement Fullstack
-        :</p>
-        <ul id="l4">
-            <li data-list-text="-"><p style="padding-left: 77pt;text-indent: -17pt;text-align: left;">Développement
-                d’API</p></li>
-            <li data-list-text="-"><p style="padding-left: 77pt;text-indent: -17pt;text-align: left;">Ecriture de tests
-                unitaires en Java</p></li>
-            <li data-list-text="-"><p style="padding-top: 3pt;padding-left: 77pt;text-indent: -18pt;text-align: left;">
-                Pattern de développement CQRS (« Command Query Responsibility Segregation ») avec spring</p></li>
-            <li data-list-text="-"><p style="padding-left: 77pt;text-indent: -17pt;text-align: left;">Requêtage SQL
-                (Microsoft SQL Server) : spring-data / Hibernate / JPA</p></li>
-            <li data-list-text="-"><p style="padding-left: 77pt;text-indent: -17pt;text-align: left;">Migration SQL avec
-                Liquibase</p></li>
-            <li data-list-text="-"><p style="padding-left: 77pt;text-indent: -17pt;text-align: left;">Déploiement et
-                CI/CD avec Jenkins</p></li>
-            <li data-list-text="-"><p style="padding-left: 77pt;text-indent: -17pt;text-align: left;">Versioning Git</p>
-            </li>
-            <li data-list-text="-"><p style="padding-left: 77pt;text-indent: -17pt;text-align: left;">Ecriture de
-                javadoc</p></li>
-            <li data-list-text="-"><p style="padding-left: 77pt;text-indent: -17pt;text-align: left;">Gestion du state
-                redux Angular avec NgRx</p></li>
-            <li data-list-text="-"><p style="padding-left: 77pt;text-indent: -17pt;text-align: left;">Typage de la data
-                avec TypeScript</p></li>
-            <li data-list-text="-"><p style="padding-left: 77pt;text-indent: -17pt;text-align: left;">Utilisation du
-                Framework PrimeNG</p></li>
-            <li data-list-text="-"><p style="padding-left: 77pt;text-indent: -17pt;text-align: left;">Création de
-                formulaires avec des FormBuilder</p></li>
-            <li data-list-text="-"><p style="padding-left: 77pt;text-indent: -17pt;text-align: left;">Emploi d’une
-                librairie et d’un design system commun à toute l’entreprise</p></li>
-            <li data-list-text="-"><p style="padding-left: 77pt;text-indent: -17pt;text-align: left;">Échanges via API
-                REST</p></li>
-            <li data-list-text="-"><p style="padding-left: 77pt;text-indent: -17pt;text-align: left;">Scripting java
-                spring batch pour des tâches journalières</p></li>
-            <li data-list-text="-"><p style="padding-left: 77pt;text-indent: -17pt;text-align: left;">Visualisation de
-                logs avec Kibana</p></li>
-            <li data-list-text="-"><p style="padding-left: 77pt;text-indent: -17pt;text-align: left;">Analyste statique
-                de code avec Sonarqube</p></li>
-        </ul>
-    </li>
-    <li data-list-text="-"><p style="padding-left: 41pt;text-indent: -17pt;text-align: left;">DevOps :</p>
-        <ul id="l5">
-            <li data-list-text="-"><p style="padding-left: 77pt;text-indent: -17pt;text-align: left;">Migration de
-                Openshift 3 à Openshift 4</p></li>
-            <li data-list-text="-"><p style="padding-left: 77pt;text-indent: -17pt;text-align: left;">Création de
-                pipelines CI/CD</p></li>
-            <li data-list-text="-"><p style="padding-left: 77pt;text-indent: -17pt;text-align: left;">Gestion de secrets
-                et fichiers de configurations</p></li>
-        </ul>
-    </li>
-    <li data-list-text="-"><p style="padding-left: 41pt;text-indent: -17pt;text-align: left;">Passage de certification
-        cloud AWS intermédiaire (Developer Associate)</p></li>
-    <li data-list-text="-"><p style="padding-left: 41pt;text-indent: -17pt;text-align: left;">Travail en environnement
-        sécurisé (Whitelistage, DataCenterFiltering, Dependabot, Keepass</p>
-        <p class="s7" style="padding-left: 41pt;text-indent: 0pt;text-align: left;">…<span class="p">)</span></p>
-        <p class="s6" style="padding-left: 5pt;text-indent: 0pt;line-height: 15pt;text-align: left;">Méthodologie</p>
-    </li>
-    <li data-list-text="-"><p style="padding-left: 41pt;text-indent: -17pt;text-align: left;">Agile (Jira, Confluence)
-        avec les différents rituels sur des sprints de 3 semaines :</p>
-        <ul id="l6">
-            <li data-list-text="-"><p style="padding-left: 77pt;text-indent: -17pt;text-align: left;">Daily meeting</p>
-            </li>
-            <li data-list-text="-"><p style="padding-left: 77pt;text-indent: -17pt;text-align: left;">Sprint
-                planning</p></li>
-            <li data-list-text="-"><p style="padding-left: 77pt;text-indent: -17pt;text-align: left;">Sprint review
-                (démo)</p></li>
-            <li data-list-text="-"><p style="padding-left: 77pt;text-indent: -17pt;text-align: left;">Poker planning /
-                refinement</p></li>
-            <li data-list-text="-"><p style="padding-left: 77pt;text-indent: -17pt;text-align: left;">Sprint
-                retrospective</p></li>
-        </ul>
-    </li>
-    <li data-list-text="-"><p style="padding-left: 41pt;text-indent: -17pt;text-align: left;">Code review avec Pull
-        Requests sur Github</p></li>
-    <li data-list-text="-"><p style="padding-left: 41pt;text-indent: -17pt;text-align: left;">Mise en place d’une
-        pratique de Test Driven Development dans le projet (TDD)</p>
-        <p style="padding-top: 1pt;text-indent: 0pt;text-align: left;"><br/></p>
-        <p class="s6" style="padding-left: 5pt;text-indent: 0pt;line-height: 15pt;text-align: left;">Environnement</p>
-    </li>
-    <li data-list-text="-"><p style="padding-left: 41pt;text-indent: -18pt;text-align: left;"><u>Langages / Framework
-        :</u> Java, Spring, Javascript, TypeScript, Angular 14, Mockito, Liquibase, Lombok, PrimeNG 13, NgRx, SASS</p>
-    </li>
-    <li data-list-text="-"><p style="padding-left: 41pt;text-indent: -17pt;text-align: left;"><u>Serveurs / Cloud :</u>
-        AWS, Apache, Tomcat, Jenkins, Maven, Openshift, Docker</p></li>
-    <li data-list-text="-"><p style="padding-left: 41pt;text-indent: -17pt;text-align: left;"><u>Base de données :</u>
-        SQL, PostgreSQL, Microsoft SQL Server</p></li>
-    <li data-list-text="-"><p style="padding-left: 41pt;text-indent: -17pt;text-align: left;"><u>Secteur d’activité
-        :</u> Aviation</p></li>
-    <li data-list-text="-"><p style="padding-left: 41pt;text-indent: -17pt;text-align: left;"><u>Outils :</u> VS Code,
-        Jira, Confluence, Git, IntelliJ, Xray, Postman, Google Workspace</p>
-        <p style="text-indent: 0pt;text-align: left;"><br/></p>
-        <p class="s8" style="padding-left: 5pt;text-indent: 0pt;text-align: left;">Septembre 2021 à Septembre 2022 –
-            Sopra Steria – Ingénieur d’études et développement</p>
-        <p class="s6" style="padding-top: 14pt;padding-left: 5pt;text-indent: 0pt;text-align: left;">Contexte</p>
-        <p style="padding-top: 3pt;padding-left: 5pt;text-indent: 0pt;text-align: justify;">Ingénieur d&#39;études et
-            développement en mission pour Nexity, client de Sopra Steria et acteur européen de l&#39;immobilier sur l&#39;application
-            de &quot;Configuration Programmes Immobiliers&quot; du Système d&#39;Information.</p>
-        <p style="padding-left: 5pt;text-indent: 0pt;text-align: justify;">Je suis intervenu sur l&#39;application
-            permettant à Nexity d&#39;optimiser ses revenus lors de la vente d&#39;un terrain.</p>
-        <p style="padding-left: 5pt;text-indent: 0pt;text-align: justify;">J&#39;étais en charge, en tant qu&#39;Ingénieur
-            Développement Backend, de la conception et du développement des outils de configuration de programmes
-            immobiliers.</p>
-        <p style="padding-left: 5pt;text-indent: 0pt;text-align: justify;">Une opération immobilière chez Nexity est
-            composée de plusieurs programmes qui sont ensuite décomposés en hypothèses, c&#39;est à ce niveau que les
-            développeurs immobiliers doivent modifier l&#39;agencement d&#39;un terrain pour en tirer un chiffre d&#39;affaire
-            intéressant.</p>
-        <p style="padding-left: 5pt;text-indent: 0pt;text-align: justify;">J&#39;ai d&#39;abord été amené à créer une
-            Conception Technique Détaillée en m&#39;inspirant des Spécifications Fonctionnelles Détaillées avant de
-            pouvoir développer et documenter l&#39;Interface de Programmation Applicative (API).</p>
-        <p style="text-indent: 0pt;text-align: left;"><br/></p>
-        <p class="s9" style="padding-left: 5pt;text-indent: 0pt;text-align: left;">Organisation des équipes :</p>
-        <p style="padding-left: 5pt;text-indent: 0pt;text-align: left;">1 Directeur de projet 1 Chef de projet</p>
-        <p style="padding-left: 5pt;text-indent: 0pt;text-align: justify;">5 Développeurs + 1 tech lead Backend 5
-            Développeurs + 1 tech lead Frontend 2 Business Analyst</p>
-        <p style="padding-left: 5pt;text-indent: 0pt;text-align: justify;">(+ le même effectif en Espagne avec une
-            communication en Français)</p>
-        <p style="padding-top: 1pt;text-indent: 0pt;text-align: left;"><br/></p>
-        <p class="s6" style="padding-left: 5pt;text-indent: 0pt;line-height: 15pt;text-align: left;">Actions</p></li>
-    <li data-list-text="-"><p style="padding-left: 41pt;text-indent: -17pt;text-align: left;">Développement Backend
-        :</p>
-        <ul id="l7">
-            <li data-list-text="-"><p style="padding-left: 77pt;text-indent: -17pt;text-align: left;">Développement
-                d’API RESTful avec contrats d’interfaces documentés</p></li>
-            <li data-list-text="-"><p style="padding-left: 77pt;text-indent: -17pt;text-align: left;">Ecriture de tests
-                unitaires en Java</p></li>
-            <li data-list-text="-"><p style="padding-left: 77pt;text-indent: -17pt;text-align: left;">Pattern de
-                développement micro-services avec spring</p></li>
-            <li data-list-text="-"><p style="padding-left: 77pt;text-indent: -17pt;text-align: left;">Requêtage SQL
-                (PostgreSQL) : spring-data / Hibernate</p></li>
-            <li data-list-text="-"><p style="padding-left: 77pt;text-indent: -17pt;text-align: left;">Migration SQL avec
-                Liquibase</p></li>
-            <li data-list-text="-"><p style="padding-left: 77pt;text-indent: -17pt;text-align: left;">Déploiement et
-                CI/CD avec AzureDevOps</p></li>
-            <li data-list-text="-"><p style="padding-left: 77pt;text-indent: -17pt;text-align: left;">Versioning Git</p>
-            </li>
-            <li data-list-text="-"><p style="padding-left: 77pt;text-indent: -17pt;text-align: left;">Ecriture de
-                javadoc et de documentation OpenAPI</p></li>
-            <li data-list-text="-"><p style="padding-left: 77pt;text-indent: -17pt;text-align: left;">Echanges via API
-                REST</p></li>
-            <li data-list-text="-"><p style="padding-left: 77pt;text-indent: -17pt;text-align: left;">Analyse statique
-                de code avec Sonarcloud</p></li>
-            <li data-list-text="-"><p style="padding-left: 77pt;text-indent: -17pt;text-align: left;">Visualisation de
-                logs et trames avec Datadog</p></li>
-        </ul>
-    </li>
-    <li data-list-text="-"><p style="padding-left: 41pt;text-indent: -17pt;text-align: left;">Rédaction d’une conception
-        technique</p></li>
-    <li data-list-text="-"><p style="padding-left: 41pt;text-indent: -17pt;text-align: left;">Passage de certification
-        cloud AWS débutant (Cloud Practitioner)</p></li>
-    <li data-list-text="-"><p style="padding-left: 41pt;text-indent: -17pt;text-align: left;">Utilisation d’outils de
-        communication évènementiel AWS comme SNS, SQS<span class="s7">…</span></p></li>
-    <li data-list-text="-"><p style="padding-left: 41pt;text-indent: -17pt;text-align: left;">Transfert de connaissances
-        et formation des apprentis/stagiaires</p>
-        <p class="s6" style="padding-left: 5pt;text-indent: 0pt;line-height: 15pt;text-align: left;">Méthodologie</p>
-    </li>
-    <li data-list-text="-"><p style="padding-left: 41pt;text-indent: -17pt;text-align: left;">Agile (Jira, Confluence)
-        avec les différents rituels sur des sprints de 3 semaines :</p></li>
-</ul>
-<ul id="l8">
-    <li data-list-text="-"><p style="padding-left: 77pt;text-indent: -17pt;text-align: left;">Daily meeting</p></li>
-    <li data-list-text="-"><p style="padding-left: 77pt;text-indent: -17pt;text-align: left;">Sprint planning</p></li>
-    <li data-list-text="-"><p style="padding-left: 77pt;text-indent: -17pt;text-align: left;">Sprint review (démo)</p>
-    </li>
-    <li data-list-text="-"><p style="padding-left: 77pt;text-indent: -17pt;text-align: left;">Poker planning /
-        refinement</p></li>
-    <li data-list-text="-"><p style="padding-left: 77pt;text-indent: -17pt;text-align: left;">Sprint retrospective</p>
-    </li>
-    <li data-list-text="-"><p style="padding-left: 41pt;text-indent: -17pt;text-align: left;">Code review avec Pull
-        Requests AzureDevOps</p>
-        <p style="padding-top: 1pt;text-indent: 0pt;text-align: left;"><br/></p>
-        <p class="s6" style="padding-left: 5pt;text-indent: 0pt;text-align: left;">Environnement</p></li>
-    <li data-list-text="-"><p style="padding-top: 3pt;padding-left: 41pt;text-indent: -17pt;text-align: left;"><u>Langages
-        / Framework :</u> Java, Spring, Hibernate, JPA, Mockito, Liquibase</p></li>
-    <li data-list-text="-"><p style="padding-left: 41pt;text-indent: -17pt;text-align: left;"><u>Serveurs / Cloud :</u>
-        AWS, Azure, Apache, Maven, Kubernetes, Docker</p></li>
-    <li data-list-text="-"><p style="padding-left: 41pt;text-indent: -17pt;text-align: left;"><u>Base de données :</u>
-        SQL, PostgreSQL</p></li>
-    <li data-list-text="-"><p style="padding-left: 41pt;text-indent: -17pt;text-align: left;"><u>Secteur d’activité
-        :</u> Immobilier</p></li>
-    <li data-list-text="-"><p style="padding-left: 41pt;text-indent: -18pt;text-align: left;"><u>Outils :</u> Jira,
-        Confluence, Git, IntelliJ, Postman, Swagger, AzureDevOps, Artifactory, Microsoft Office</p>
-        <p style="text-indent: 0pt;text-align: left;"><br/></p>
-        <p class="s8" style="padding-left: 5pt;text-indent: 0pt;text-align: left;">Septembre 2017 à Septembre 2021 –
-            Fichorga – Apprenti ingénieur</p>
-        <p class="s6" style="padding-top: 14pt;padding-left: 5pt;text-indent: 0pt;line-height: 15pt;text-align: left;">
-            Contexte</p>
-        <p style="padding-left: 5pt;text-indent: 0pt;text-align: left;">Fichorga est le 3<span class="s10">e</span> plus
-            gros acteur dans la rédaction d’actes notariaux et fourni tout le matériel informatique nécessaire aux
-            études notariales.</p>
-        <p style="padding-left: 5pt;text-indent: 0pt;text-align: left;">De ce fait le service informatique de
-            l’entreprise se doit de gérer un grand nombre de serveurs, ordinateurs, logiciels<span class="s7">…</span>
-        </p>
-        <p style="padding-left: 5pt;text-indent: 0pt;text-align: left;">Les différentes missions qui m’ont été
-            attribuées sont :</p></li>
-    <li data-list-text="-"><p style="padding-left: 41pt;text-indent: -18pt;text-align: left;">Configurer et paramétrer
-        les environnements de tests ou environnements clients pour l’utilisation d’un logiciel de rédaction d’acte
-        notarial.</p></li>
-    <li data-list-text="-"><p style="padding-left: 41pt;text-indent: -18pt;text-align: left;">Corrections de bugs et
-        développement de nouvelles fonctionnalités sur le logiciel phare de l’entreprise.</p></li>
-    <li data-list-text="-"><p style="padding-left: 41pt;text-indent: -18pt;text-align: left;">Conception et
-        Développement d’une extension au logiciel de rédaction d’actes afin d’aider les notaires dans leurs échanges de
-        documents avec leurs clients.</p></li>
-</ul>
-<p class="s9" style="padding-left: 5pt;text-indent: 0pt;text-align: left;">Organisation des équipes collaboratrices
-    :</p>
-<p style="padding-left: 5pt;text-indent: 0pt;text-align: left;">1 Chef de Service R&amp;D / Développement) 1 Chef de
-    projet</p>
-<p style="padding-left: 5pt;text-indent: 0pt;text-align: left;">10-20 Développeurs</p>
-<p style="padding-left: 5pt;text-indent: 0pt;text-align: left;">2 Administrateurs système et réseaux 1 Product Owner</p>
-<p style="padding-left: 5pt;text-indent: 0pt;text-align: left;">1 Testeur</p>
-<p style="padding-top: 1pt;text-indent: 0pt;text-align: left;"><br/></p>
-<p class="s6" style="padding-left: 5pt;text-indent: 0pt;line-height: 15pt;text-align: left;">Actions</p>
-<ul id="l9">
-    <li data-list-text="-"><p style="padding-left: 41pt;text-indent: -17pt;text-align: left;">Ecriture de scripts
-        d’installation logiciel</p></li>
-    <li data-list-text="-"><p style="padding-left: 41pt;text-indent: -17pt;text-align: left;">Conception/Développement
-        d’un outil d’administration de l’effectif de l’entreprise</p></li>
-    <li data-list-text="-"><p style="padding-left: 41pt;text-indent: -17pt;text-align: left;">Configuration/paramétrage
-        de serveurs d’application dans la salle serveur on premise</p></li>
-    <li data-list-text="-"><p style="padding-left: 41pt;text-indent: -17pt;text-align: left;">Rédaction d’expression de
-        besoins</p></li>
-    <li data-list-text="-"><p style="padding-left: 41pt;text-indent: -17pt;text-align: left;">Développement en
-        micro-services d’une nouvelle application</p>
-        <p style="padding-top: 1pt;text-indent: 0pt;text-align: left;"><br/></p>
-        <p class="s6" style="padding-left: 5pt;text-indent: 0pt;line-height: 15pt;text-align: left;">Méthodologie</p>
-    </li>
-    <li data-list-text="-"><p style="padding-left: 41pt;text-indent: -17pt;text-align: left;">Agile (Kanban/Jira)</p>
-        <p style="padding-top: 1pt;text-indent: 0pt;text-align: left;"><br/></p>
-        <p class="s6" style="padding-left: 5pt;text-indent: 0pt;line-height: 15pt;text-align: left;">Environnement</p>
-    </li>
-    <li data-list-text="-"><p style="padding-left: 41pt;text-indent: -17pt;text-align: left;"><u>Langages / Framework
-        :</u> Java, J2EE (Java pour le web), Quarkus, PowerShell, Scripting, Pascal</p></li>
-    <li data-list-text="-"><p style="padding-left: 41pt;text-indent: -18pt;text-align: left;"><u>Serveurs / Cloud :</u>
-        On premise, VMWare ESXi, Apache, Tomcat, Jenkins, Maven, Kubernetes, Docker</p></li>
-    <li data-list-text="-"><p style="padding-left: 41pt;text-indent: -17pt;text-align: left;"><u>Base de données :</u>
-        SQL, MariaDB</p></li>
-    <li data-list-text="-"><p style="padding-left: 41pt;text-indent: -17pt;text-align: left;"><u>Secteur d’activité
-        :</u> Notariat</p></li>
-    <li data-list-text="-"><p style="padding-left: 41pt;text-indent: -17pt;text-align: left;"><u>Outils :</u> Jira,
-        Confluence, Git, IntelliJ, Postman</p></li>
-</ul>
-<p style="text-indent: 0pt;text-align: left;"><br/></p>
-<p style="padding-left: 5pt;text-indent: 0pt;line-height: 2pt;text-align: left;"><span/></p>
-<h2 style="padding-top: 12pt;padding-left: 5pt;text-indent: 0pt;text-align: left;">Langues</h2>
-<p class="s11" style="padding-top: 14pt;padding-left: 5pt;text-indent: 0pt;text-align: left;">Français : Langue
-    maternelle. Anglais : Professionnel (TOEIC).</p>
-<p style="text-indent: 0pt;text-align: left;"><br/></p>
-<p style="padding-left: 5pt;text-indent: 0pt;line-height: 2pt;text-align: left;"><span/></p>
-<h2 style="padding-top: 12pt;padding-left: 5pt;text-indent: 0pt;line-height: 20pt;text-align: left;">Formation</h2>
-<h3 style="padding-left: 5pt;text-indent: 0pt;line-height: 15pt;text-align: left;">2021 – <span class="s11">IG2I – Ingénieur informatique</span>
-</h3>
-<h3 style="padding-top: 3pt;padding-left: 5pt;text-indent: 0pt;text-align: left;">2022 – <span class="s11">Sopra Steria – Certification AWS Certified Developer - Associate</span>
-</h3>
-<h3 style="padding-top: 3pt;padding-left: 5pt;text-indent: 0pt;text-align: left;">2023 – <span class="s11">Sopra Steria – Certification AWS Certified Cloud Practitioner</span>
-</h3></body>
+
+<h1 style="padding-top: 10pt; padding-bottom: 10pt;">Expériences Professionnelles</h1>
+<div class="s4" th:each="experience : ${experiences}">
+    <div th:text="${experience.convertDateToString(experience.begin_date)} + ' au ' + ${experience.convertDateToString(experience.ending_date)} + ' : ' + ${experience.client} + ' - ' + ${experience.work_function}"></div>
+    <div th:remove="tag" th:utext="${experience.details}"></div>
+</div>
+
+<hr/>
+
+<div class="s4" style="padding-bottom: 10pt;">
+    <h2 style="padding-top: 10pt; padding-bottom: 10pt;">Langues</h2>
+    <div th:each="language : ${languages}" th:text="${language}"></div>
+</div>
+
+<hr/>
+
+<h2 style="padding-top: 10pt; padding-bottom: 10pt;">Formation</h2>
+<div class="s4" th:each="learning : ${learnings}">
+    <span style="font-weight: bold" th:text="${learning.convertDateToString(learning.ending_date)}"></span>
+    <span th:text=" '- ' + ${learning.institution}"></span>
+    <span th:text=" '- ' + ${learning.name}"></span>
+</div>
+
+</body>
+
 </html>

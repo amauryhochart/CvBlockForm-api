@@ -295,6 +295,7 @@ public class CvBlockFormController {
         reworkedDtoSkillFolder.putIfAbsent("experiences", new ArrayList<>());
         reworkedDtoSkillFolder.putIfAbsent("skills", new ArrayList<>());
         reworkedDtoSkillFolder.putIfAbsent("learnings", new ArrayList<>());
+        reworkedDtoSkillFolder.putIfAbsent("languages", new ArrayList<>());
 
         // update in DB the document
         UpdateResult updateResult = cvBlockFormRepository.putSkillFolder(skillFolderId, reworkedDtoSkillFolder);
