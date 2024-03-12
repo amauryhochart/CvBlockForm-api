@@ -26,7 +26,7 @@ public class DtoSkillFolder extends Document {
     public String first_name;
     public String actual_function;
     public Date availability;
-    public List<DtoSkill> skills;
+    public String skills;
     public List<DtoExperience> experiences;
     public List<DtoLearning> learnings;
     public String resume;

@@ -53,23 +53,6 @@ public class CvBlockFormRepository {
         return mongoTemplate.find(query, SkillFolder.class);
     }
 
-    public SkillFolder createSkillFolderFromDocument(Document document) {
-        MongoDatabase database = mongoClient.getDatabase(DATABASE_NAME);
-        MongoCollection<Document> collection = database.getCollection(COLLECTION_NAME);
-
-        SkillFolder skillFolder = SkillFolder.builder().skill_folder_id(getRandomId()).creation_date(Date.from(Instant.now())).modification_date(Date.from(Instant.now())).deleted(false).experience_years(document.getInteger("experience_years")).email(document.getString("email")).tjm(document.getInteger("experience_years")).mobility(document.getString("mobility")).languages(document.getList("languages", String.class))
-//                .consultant(document.get("consultant", Consultant.class))
-//                .skills(document.getList("skills", Skill.class))
-//                .experiences(document.getList("experiences", Experience.class))
-//                .learnings(document.getList("learnings", Learning.class))
-                .build();
-
-        Document consultant = new Document().append("_id", new ObjectId()).append("skill_folder_id", skillFolder.getSkill_folder_id()).append("creation_date", skillFolder.getCreation_date()).append("deleted", skillFolder.getDeleted());
-
-        InsertOneResult result = collection.insertOne(new Document().append("_id", new ObjectId()).append("skill_folder_id", skillFolder.getSkill_folder_id()).append("creation_date", skillFolder.getCreation_date()).append("deleted", skillFolder.getDeleted()).append("experience_years", skillFolder.getExperience_years()).append("tjm", skillFolder.getTjm()).append("mobility", skillFolder.getMobility()).append("languages", skillFolder.getLanguages()).append("consultant", consultant).append("skills", Collections.addAll(skillFolder.getSkills())).append("experiences", Collections.addAll(skillFolder.getExperiences())).append("learnings", Collections.addAll(skillFolder.getLearnings())));
-        return skillFolder;
-    }
-
     /**
      * Create the Experience Document in DB by updating the SkillFolder Document with collection.findOneAndUpdate.
      *
@@ -90,29 +73,6 @@ public class CvBlockFormRepository {
 
         // update in database the skillFolder
         return collection.findOneAndUpdate(query, push_data);
-    }
-
-    /**
-     * Create the Skill Document in DB by updating the SkillFolder Document with collection.findOneAndUpdate.
-     *
-     * @param skillFolderId Integer skillFolderId
-     * @param document      BsonDocument of the concerned Skill Object
-     * @return document if success
-     */
-    public Document createSkill(int skillFolderId, Document document) {
-        // get the collection
-        MongoCollection<Document> collection = mongoTemplate.getCollection("skillfolder");
-
-        // set a query with skill_folder_id
-        BasicDBObject query = new BasicDBObject();
-        query.put("skill_folder_id", skillFolderId);
-
-        // push the skill in skills in the skill_folder_id
-        BasicDBObject push_data = new BasicDBObject("$push", new BasicDBObject("skills", document));
-
-        // update in database the skillFolder
-        collection.findOneAndUpdate(query, push_data);
-        return document;
     }
 
     /**
@@ -158,30 +118,6 @@ public class CvBlockFormRepository {
         BasicDBObject remove = new BasicDBObject("$pull", fields);
 
         // remove the experience in the skillFolder in database and return a Document
-        return collection.findOneAndUpdate(query, remove);
-    }
-
-    /**
-     * Delete a Skill in the skills list of a skillFolder in database.
-     *
-     * @param skillFolderId the id of the skillFolder
-     * @return document      BsonDocument of the concerned SkillFolder Object
-     */
-    public Document deleteSkill(int skillFolderId, int skillId) {
-        // get the collection
-        MongoCollection<Document> collection = mongoTemplate.getCollection("skillfolder");
-
-        // set a query with skill_folder_id
-        BasicDBObject query = new BasicDBObject();
-        query.put("skill_folder_id", skillFolderId);
-
-        // remove the skill in skills in the skill_folder_id
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("skill_id", skillId);
-        BasicDBObject fields = new BasicDBObject("skills", map);
-        BasicDBObject remove = new BasicDBObject("$pull", fields);
-
-        // remove the skill in the skillFolder in database and return a Document
         return collection.findOneAndUpdate(query, remove);
     }
 
@@ -268,6 +204,7 @@ public class CvBlockFormRepository {
         updateFields.append("tjm", document.getInteger("tjm"));
         updateFields.append("mobility", document.getString("mobility"));
         updateFields.append("resume", document.getString("resume"));
+        updateFields.append("skills", document.getString("skills"));
         BasicDBObject setQuery = new BasicDBObject();
         setQuery.append("$set", updateFields);
 
@@ -297,34 +234,6 @@ public class CvBlockFormRepository {
         updateFields.append("experiences.$.begin_date", document.getDate("begin_date"));
         updateFields.append("experiences.$.ending_date", document.getDate("ending_date"));
         updateFields.append("experiences.$.details", document.getString("details"));
-
-        // specify a "set" operation
-        BasicDBObject setQuery = new BasicDBObject();
-        setQuery.append("$set", updateFields);
-
-        // update in database the experience
-        return collection.updateOne(filter, setQuery);
-    }
-
-    /**
-     * Update a skill in the skill list in the skillFolder.
-     *
-     * @param skillFolderId the id of the concerned skillFolder
-     * @param document      BsonDocument of the concerned Skill Object
-     * @return UpdateResult result of the update operation with counted modifications
-     */
-    public UpdateResult putSkill(int skillFolderId, Document document) {
-        // get the collection
-        MongoCollection<Document> collection = mongoTemplate.getCollection("skillfolder");
-
-        // set a query with skill_folder_id and skill_id
-        Bson filter = Filters.and(Filters.eq("skill_folder_id", skillFolderId), Filters.eq("skills.skill_id", document.get("skill_id")));
-
-        // update fields in the skill with the $ which represent the element in array
-        BasicDBObject updateFields = new BasicDBObject();
-        updateFields.append("skills.$.modification_date", Date.from(Instant.now()));
-        updateFields.append("skills.$.name", document.getString("name"));
-        updateFields.append("skills.$.type", document.getString("type"));
 
         // specify a "set" operation
         BasicDBObject setQuery = new BasicDBObject();

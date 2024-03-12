@@ -1,7 +1,6 @@
 package org.meedz.cvblockformapi.service;
 
 import com.lowagie.text.DocumentException;
-import org.meedz.cvblockformapi.model.Skill;
 import org.meedz.cvblockformapi.model.SkillFolder;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
@@ -11,9 +10,6 @@ import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 import org.xhtmlrenderer.pdf.ITextRenderer;
 
 import java.io.*;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @Service
 public class CvBlockFormService {

@@ -64,10 +64,7 @@
 
 <div style="padding-bottom: 10pt;">
     <h1 style="padding-top: 10pt; padding-bottom: 10pt;">Compétences</h1>
-    <div th:each="skill : ${skills}">
-        <div class="s6" th:text="${skill.type}"></div>
-        <div class="s4" th:text="${skill.name}"></div>
-    </div>
+    <div th:remove="tag" th:utext="${skills}" class="s1"></div>
 </div>
 
 <hr/>

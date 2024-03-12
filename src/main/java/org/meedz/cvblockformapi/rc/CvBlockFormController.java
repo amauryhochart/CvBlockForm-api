@@ -5,7 +5,6 @@ import com.mongodb.client.result.UpdateResult;
 import org.bson.Document;
 import org.meedz.cvblockformapi.dto.DtoExperience;
 import org.meedz.cvblockformapi.dto.DtoLearning;
-import org.meedz.cvblockformapi.dto.DtoSkill;
 import org.meedz.cvblockformapi.dto.DtoSkillFolder;
 import org.meedz.cvblockformapi.model.SkillFolder;
 import org.meedz.cvblockformapi.repository.CvBlockFormRepository;
@@ -132,28 +131,6 @@ public class CvBlockFormController {
     }
 
     /**
-     * Endpoint to Create a skill in the skillFolder concerned.
-     *
-     * @param skillFolderId Integer skillFolderId
-     * @param dtoSkill      JSON DTO of the skill in the React form
-     * @return the dtoSkill concerned with 201 HTTP CREATED
-     */
-    @PostMapping("/skill")
-    ResponseEntity<?> postSkill(@RequestParam int skillFolderId, @RequestBody DtoSkill dtoSkill) {
-        // Fill the base info, like creation_date...
-        dtoSkill.put("skill_id", cvBlockFormRepository.getRandomId());
-        DtoSkill reworkedDtoSkill = (DtoSkill) getBaseReworkedDto(skillFolderId, dtoSkill);
-
-        // create in DB the document
-        Document document = cvBlockFormRepository.createSkill(skillFolderId, reworkedDtoSkill);
-        if (document != null) {
-            return ResponseEntity.status(HttpStatus.CREATED).body(reworkedDtoSkill);
-        } else {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error in creating skill " + dtoSkill.get("skill_id") + " in the skillFolder " + skillFolderId);
-        }
-    }
-
-    /**
      * Endpoint to Create a learning/formation in the skillFolder concerned.
      *
      * @param skillFolderId Integer skillFolderId
@@ -199,23 +176,6 @@ public class CvBlockFormController {
     }
 
     /**
-     * Endpoint to Delete a skill in the SkillFolder.skills list.
-     *
-     * @param skillFolderId Integer skillFolderId
-     * @param skillId       Integer skillId
-     * @return a ResponseEntity with 204 HTTP NO_CONTENT
-     */
-    @DeleteMapping("/skill")
-    ResponseEntity<?> deleteSkill(@RequestParam int skillFolderId, @RequestParam int skillId) {
-        Document document = cvBlockFormRepository.deleteSkill(skillFolderId, skillId);
-        if (document != null) {
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        } else {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error in deleting skill " + skillId + " in the skillFolder " + skillFolderId);
-        }
-    }
-
-    /**
      * Endpoint to Delete a learning in the SkillFolder.learnings list.
      *
      * @param skillFolderId Integer skillFolderId
@@ -248,8 +208,9 @@ public class CvBlockFormController {
         reworkedDtoSkillFolder.replace("availability", date != null ? Date.from(Instant.parse(date)) : null);
 
         reworkedDtoSkillFolder.putIfAbsent("experiences", new ArrayList<>());
-        reworkedDtoSkillFolder.putIfAbsent("skills", new ArrayList<>());
         reworkedDtoSkillFolder.putIfAbsent("learnings", new ArrayList<>());
+        reworkedDtoSkillFolder.putIfAbsent("languages", new ArrayList<>());
+        reworkedDtoSkillFolder.putIfAbsent("skills", "");
 
         // create in DB the document
         Document document = cvBlockFormRepository.createSkillFolder(reworkedDtoSkillFolder);
@@ -293,7 +254,6 @@ public class CvBlockFormController {
         reworkedDtoSkillFolder.replace("availability", date != null ? Date.from(Instant.parse(date)) : null);
 
         reworkedDtoSkillFolder.putIfAbsent("experiences", new ArrayList<>());
-        reworkedDtoSkillFolder.putIfAbsent("skills", new ArrayList<>());
         reworkedDtoSkillFolder.putIfAbsent("learnings", new ArrayList<>());
         reworkedDtoSkillFolder.putIfAbsent("languages", new ArrayList<>());
 
@@ -330,27 +290,6 @@ public class CvBlockFormController {
             return ResponseEntity.ok(reworkedDtoExperience);
         } else {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error in edit experience " + dtoExperience.get("experience_id") + " in the skillFolder " + skillFolderId);
-        }
-    }
-
-    /**
-     * Endpoint to Edit a skill in the SkillFolder.skills list.
-     *
-     * @param skillFolderId Integer skillFolderId
-     * @param dtoSkill      JSON DTO of the skill in the React form
-     * @return the JSON DTO of the experience with 200 HTTP OK
-     */
-    @PutMapping("/skill")
-    ResponseEntity<?> putSkill(@RequestParam int skillFolderId, @RequestBody DtoSkill dtoSkill) {
-        // Fill the base info, like creation_date...
-        DtoSkill reworkedDtoSkill = (DtoSkill) getBaseReworkedDto(skillFolderId, dtoSkill);
-
-        // update in DB the document
-        UpdateResult updateResult = cvBlockFormRepository.putSkill(skillFolderId, reworkedDtoSkill);
-        if (updateResult.getMatchedCount() > 0) {
-            return ResponseEntity.ok(reworkedDtoSkill);
-        } else {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error in edit skill " + dtoSkill.get("skill_id") + " in the skillFolder " + skillFolderId);
         }
     }
 

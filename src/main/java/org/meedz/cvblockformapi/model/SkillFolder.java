@@ -25,7 +25,7 @@ public class SkillFolder {
     public String first_name;
     public String actual_function;
     public Date availability;
-    public List<Skill> skills;
+    public String skills;
     public List<Experience> experiences;
     public List<Learning> learnings;
     public String resume;
