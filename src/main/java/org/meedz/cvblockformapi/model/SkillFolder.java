@@ -28,6 +28,6 @@ public class SkillFolder {
     public String skills;
     public List<Experience> experiences;
     public List<Learning> learnings;
-    public String resume;
+    public String preamble;
 
 }

@@ -26,8 +26,19 @@ public class Experience {
      * @param date Date
      * @return a string date formatted to MM/yyyy
      */
-    public String convertDateToString(Date date) {
+    public String convertDateToMonthYearNumberString(Date date) {
         SimpleDateFormat formatter = new SimpleDateFormat("MM/yyyy");
+        return formatter.format(date);
+    }
+
+    /**
+     * Useful for thymeleaf.
+     *
+     * @param date Date
+     * @return a string date formatted to MMMM yyyy (september 2024)
+     */
+    public String convertDateToMonthTextYearString(Date date) {
+        SimpleDateFormat formatter = new SimpleDateFormat("MMMM yyyy");
         return formatter.format(date);
     }
 }

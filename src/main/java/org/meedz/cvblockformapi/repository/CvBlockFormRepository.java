@@ -203,7 +203,7 @@ public class CvBlockFormRepository {
         updateFields.append("availability", document.getDate("availability"));
         updateFields.append("tjm", document.getInteger("tjm"));
         updateFields.append("mobility", document.getString("mobility"));
-        updateFields.append("resume", document.getString("resume"));
+        updateFields.append("preamble", document.getString("preamble"));
         updateFields.append("skills", document.getString("skills"));
         BasicDBObject setQuery = new BasicDBObject();
         setQuery.append("$set", updateFields);

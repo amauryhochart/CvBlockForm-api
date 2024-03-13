@@ -22,9 +22,9 @@ public class Learning {
      * Useful for thymeleaf.
      *
      * @param date Date
-     * @return a string date formatted to MM/yyyy
+     * @return a string date formatted to yyyy
      */
-    public String convertDateToString(Date date) {
+    public String convertDateToYearString(Date date) {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy");
         return formatter.format(date);
     }

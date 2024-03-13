@@ -3,25 +3,27 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>Meedz - Dossier de compétences.docx</title>
+    <title>Meedz - Dossier de compétences</title>
     <link th:href="@{src/main/resources/static/primeflex.css}" rel="stylesheet"/>
     <style type="text/css">
-        .s1 { color: black; font-family:Calibri, sans-serif; font-style: normal; font-weight: bold; text-decoration: none; font-size: 18pt; }
-        h2 { color: #3772FF; font-family:Calibri, sans-serif; font-style: normal; font-weight: bold; text-decoration: none; font-size: 16pt; margin:0pt; }
-        .s2 { color: black; font-family:Calibri, sans-serif; font-style: italic; font-weight: normal; text-decoration: none; font-size: 12pt; }
-        .s3 { color: black; font-family:Arial, sans-serif; font-style: italic; font-weight: normal; text-decoration: none; font-size: 12pt; }
-        h1 { color: #3772FF; font-family:Calibri, sans-serif; font-style: normal; font-weight: bold; text-decoration: none; font-size: 18pt; margin:0pt; }
-        .s4 { color: black; font-family:Calibri, sans-serif; font-style: normal; font-weight: normal; text-decoration: none; font-size: 13pt; }
-        .s5 { color: #3770FF; font-family:Calibri, sans-serif; font-style: normal; font-weight: bold; text-decoration: none; font-size: 18pt; }
-        .s6 { color: #B880FF; font-family:Calibri, sans-serif; font-style: normal; font-weight: normal; text-decoration: underline; font-size: 12pt; }
-        .p, p { color: black; font-family:Calibri, sans-serif; font-style: normal; font-weight: normal; text-decoration: none; font-size: 11pt; margin:0pt; }
-        .s7 { color: black; font-family:Arial, sans-serif; font-style: normal; font-weight: normal; text-decoration: none; font-size: 11pt; }
-        .s8 { color: #3772FF; font-family:Calibri, sans-serif; font-style: normal; font-weight: normal; text-decoration: none; font-size: 14pt; }
-        .s9 { color: black; font-family:Calibri, sans-serif; font-style: normal; font-weight: normal; text-decoration: underline; font-size: 11pt; }
-        .s10 { color: black; font-family:Calibri, sans-serif; font-style: normal; font-weight: normal; text-decoration: none; font-size: 7pt; vertical-align: 3pt; }
-        .s11 { color: black; font-family:Calibri, sans-serif; font-style: normal; font-weight: normal; text-decoration: none; font-size: 12pt; }
-        h3 { color: black; font-family:Calibri, sans-serif; font-style: normal; font-weight: bold; text-decoration: none; font-size: 12pt; }
-               hr {color: #3772FF}
+        hr { color: #3772FF }
+        @page {
+            margin: 30pt;
+            size: A4 portrait;
+            @bottom-left {
+                color: #3772FF;
+                padding-left: 40pt;
+                margin-bottom: 50pt;
+                content: "MEEDZ – 270, Avenue de la République - 59110 LA MADELEINE";
+            }
+            @bottom-right {
+                color: #3772FF;
+                padding-right: 40pt;
+                content: "https://meedz.io";
+            }
+            counter-increment: page;
+            counter-reset: page 1;
+        }
     </style>
 </head>
 
@@ -35,60 +37,196 @@
         <img th:src="@{src/main/resources/images/meedz-logo.jpg}" alt="logo MEEDZ" width="80pt"/>
     </span>
     <span style="display: inline-block; width: 70%">
-        <h1
-                style="color: black"
-                th:text="${first_name}">
+        <h1 style="margin: 0;
+    padding: 0;
+    color: black;
+    font-family: Calibri, sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 18pt;
+    padding-top: 12pt;
+    text-indent: 0pt;
+    line-height: 22pt;
+    text-align: left;"
+            th:text="${first_name}">
         </h1>
-        <h2
-                th:text="${actual_function}">
+        <h2 style="margin: 0;
+    padding: 0;
+    color: #3772FF;
+    font-family: Calibri, sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 16pt;
+    text-indent: 0pt;
+    line-height: 19pt;
+    text-align: left;"
+            th:text="${actual_function}">
         </h2>
-        <h2
-                th:text="${experience_years} + ' années d\'expériences'">
+        <h2 style="margin: 0;
+    padding: 0;
+    color: #3772FF;
+    font-family: Calibri, sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 16pt;
+    text-indent: 0pt;
+    line-height: 20pt;
+    text-align: left;"
+            th:text="${experience_years} + ' années d\'expériences'">
         </h2>
     </span>
 </div>
 
-<div th:remove="tag" th:utext="${resume}" class="s1"></div>
+<div style="padding: 0;
+    margin: 0pt;
+    color: black;
+    font-family: Calibri, sans-serif;
+    font-style: italic;
+    font-weight: normal;
+    text-decoration: none;
+    font-size: 11pt;
+    text-indent: 0pt;
+    text-align: justify;"
+     th:remove="tag" th:utext="${preamble}"></div>
 
 <hr/>
 
-<h1 style="padding-top: 10pt; text-indent: 0pt; text-align: left;">Résumé</h1>
-<ul>
-    <li
+<div>
+    <h2 style="padding-top: 17pt;
+    margin: 0;
+    color: #3772FF;
+    font-family: Calibri, sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 15pt;
+
+    text-indent: 0pt;
+    text-align: left;">RESUME</h2>
+    <ul>
+        <li style="padding: 0;
+    color: black;
+    font-family: Calibri, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: none;
+    font-size: 10pt;
+    margin: 0pt;
+    padding-top: 1pt;
+    text-align: left;"
             th:each="experience : ${experiences}"
-            th:text="${experience.convertDateToString(experience.begin_date)} + ' au ' + ${experience.convertDateToString(experience.ending_date)} + ' : ' + ${experience.client} + ' - ' + ${experience.work_function}">
-    </li>
-</ul>
-
-<hr/>
-
-<div style="padding-bottom: 10pt;">
-    <h1 style="padding-top: 10pt; padding-bottom: 10pt;">Compétences</h1>
-    <div th:remove="tag" th:utext="${skills}" class="s1"></div>
+            th:text="${experience.convertDateToMonthYearNumberString(experience.begin_date)} + ' au ' + ${experience.convertDateToMonthYearNumberString(experience.ending_date)} + ' : ' + ${experience.client} + ' - ' + ${experience.work_function}">
+        </li>
+    </ul>
 </div>
 
 <hr/>
 
-<h1 style="padding-top: 10pt; padding-bottom: 10pt;">Expériences Professionnelles</h1>
-<div class="s4" th:each="experience : ${experiences}">
-    <div th:text="${experience.convertDateToString(experience.begin_date)} + ' au ' + ${experience.convertDateToString(experience.ending_date)} + ' : ' + ${experience.client} + ' - ' + ${experience.work_function}"></div>
-    <div th:remove="tag" th:utext="${experience.details}"></div>
+<div>
+    <h2 style="padding-top: 17pt;
+    margin: 0;
+    color: #3772FF;
+    font-family: Calibri, sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 15pt;
+    text-indent: 0pt;
+    text-align: left;">COMPETENCES</h2>
+    <div style="padding-top: 10pt; padding-left: 20pt;">
+        <div th:remove="tag" th:utext="${skills}"></div>
+    </div>
 </div>
 
 <hr/>
 
-<div class="s4" style="padding-bottom: 10pt;">
-    <h2 style="padding-top: 10pt; padding-bottom: 10pt;">Langues</h2>
-    <div th:each="language : ${languages}" th:text="${language}"></div>
+<div>
+    <h2 style="padding-top: 20pt;
+    padding-bottom: 10pt;
+    margin: 0;
+    padding: 0;
+    color: #3772FF;
+    font-family: Calibri, sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 15pt;
+
+    text-indent: 0pt;
+    text-align: left;">EXPERIENCES PROFESSIONNELLES</h2>
+    <div style="padding-top: 10pt; padding-left: 20pt;">
+        <div th:each="experience : ${experiences}">
+            <!--            <div th:text="${experience.convertDateToString(experience.begin_date)} + ' au ' + ${experience.convertDateToString(experience.ending_date)} + ' : ' + ${experience.client} + ' - ' + ${experience.work_function}"></div>-->
+            <div style="padding: 0;
+    margin: 0pt;
+    color: #3772FF;
+    font-family: Calibri, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: none;
+    font-size: 13pt;
+    padding-top: 13pt;
+    text-indent: 0pt;
+    text-align: left;" th:text="${experience.work_function} + ' - ' + ${experience.client}"></div>
+            <div style="padding: 0;
+    margin: 0pt;
+    color: #3772FF;
+    font-family: Calibri, sans-serif;
+    font-style: italic;
+    font-weight: normal;
+    text-decoration: none;
+    font-size: 11pt;
+    text-indent: 0pt;
+    text-align: left;"
+                 th:text="${experience.convertDateToMonthTextYearString(experience.begin_date)} + ' à ' + ${experience.convertDateToMonthTextYearString(experience.ending_date)}"></div>
+            <div th:remove="tag" th:utext="${experience.details}"></div>
+        </div>
+    </div>
 </div>
 
 <hr/>
 
-<h2 style="padding-top: 10pt; padding-bottom: 10pt;">Formation</h2>
-<div class="s4" th:each="learning : ${learnings}">
-    <span style="font-weight: bold" th:text="${learning.convertDateToString(learning.ending_date)}"></span>
-    <span th:text=" '- ' + ${learning.institution}"></span>
-    <span th:text=" '- ' + ${learning.name}"></span>
+<div>
+    <h2 style="padding-top: 17pt;
+    margin: 0;
+    color: #3772FF;
+    font-family: Calibri, sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 15pt;
+    text-indent: 0pt;
+    text-align: left;">LANGUES</h2>
+    <div>
+        <ul>
+            <li th:each="language : ${languages}" th:text="${language}"></li>
+        </ul>
+    </div>
+</div>
+
+<hr/>
+
+<div>
+    <h2 style="padding-top: 17pt;
+    margin: 0;
+    color: #3772FF;
+    font-family: Calibri, sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 15pt;
+    text-indent: 0pt;
+    text-align: left;">FORMATION</h2>
+    <div style="padding-top: 10pt;">
+        <div th:each="learning : ${learnings}">
+            <span style="font-weight: bold" th:text="${learning.convertDateToYearString(learning.ending_date)}"></span>
+            <span th:text=" '- ' + ${learning.institution}"></span>
+            <span th:text=" '- ' + ${learning.name}"></span>
+        </div>
+    </div>
 </div>
 
 </body>

@@ -15,7 +15,6 @@ import java.io.*;
 public class CvBlockFormService {
 
     public File generatePdfFromHtml(SkillFolder skillFolder) {
-//        String outputFolder = System.getProperty("user.home") + File.separator + "thymeleaf.pdf";
         String outputFolder = "exports_pdf" + File.separator + "thymeleaf.pdf";
         OutputStream outputStream = null;
         try {
@@ -36,7 +35,7 @@ public class CvBlockFormService {
         context.setVariable("first_name", skillFolder.getFirst_name());
         context.setVariable("actual_function", skillFolder.getActual_function());
         context.setVariable("experience_years", skillFolder.getExperience_years());
-        context.setVariable("resume", skillFolder.getResume());
+        context.setVariable("preamble", skillFolder.getPreamble());
         context.setVariable("experiences", skillFolder.getExperiences());
         context.setVariable("skills", skillFolder.getSkills());
         context.setVariable("languages", skillFolder.getLanguages());

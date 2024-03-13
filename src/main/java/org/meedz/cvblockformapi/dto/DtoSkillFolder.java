@@ -29,6 +29,6 @@ public class DtoSkillFolder extends Document {
     public String skills;
     public List<DtoExperience> experiences;
     public List<DtoLearning> learnings;
-    public String resume;
+    public String preamble;
 
 }
