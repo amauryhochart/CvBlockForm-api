@@ -20,8 +20,6 @@ public class AuthFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String xAuth = request.getHeader("Authorization");//here is your token value
-        String cors = request.getHeader("Access-Control-Allow-Origin");//here is your token value
-        System.out.println(cors);
         try {
             if (xAuth != null) {
                 String[] chunks = xAuth.split("\\.");

@@ -19,18 +19,9 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests((authz) -> authz.anyRequest().permitAll()).httpBasic(withDefaults());
+        http.cors().and().csrf().disable().authorizeHttpRequests((authz) -> authz.anyRequest().permitAll()).httpBasic(withDefaults());
         return http.build();
     }
 
-    @Bean
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurer() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("*").allowedOrigins("http:localhost:3000","http://localhost:3000");
-            }
-        };
-    }
 
 }
