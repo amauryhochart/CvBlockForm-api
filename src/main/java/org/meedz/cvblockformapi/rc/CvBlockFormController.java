@@ -26,7 +26,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping("/cvblockform")
+@RequestMapping("/api/cvblockform")
 public class CvBlockFormController {
 
     @Autowired
