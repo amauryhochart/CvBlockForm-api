@@ -46,7 +46,7 @@ public class CvBlockFormController {
     private static HttpHeaders getHttpHeaders() {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json; charset=UTF-8");
-        headers.add("Content-Encoding", "gzip");
+//        headers.add("Content-Encoding", "gzip");
         return headers;
     }
 
